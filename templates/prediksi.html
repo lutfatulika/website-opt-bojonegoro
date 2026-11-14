@@ -1,0 +1,1007 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Prediksi OPT | OPT Bojonegoro</title>
+
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
+
+    <style>
+        .page-panel {
+            padding: 26px;
+            margin-bottom: 24px;
+        }
+
+        .prediction-layout {
+            display: grid;
+            grid-template-columns: minmax(0, 1.1fr) minmax(280px, .9fr);
+            gap: 22px;
+            align-items: start;
+        }
+
+        .form-group {
+            margin-top: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            color: var(--green-dark);
+            font-weight: 700;
+            font-size: 15px;
+        }
+
+        .form-control {
+            width: 100%;
+            padding: 13px 14px;
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            background: white;
+            color: var(--text);
+            font: inherit;
+        }
+
+        .form-control:focus {
+            outline: 2px solid #b7cfb4;
+            border-color: var(--green);
+        }
+
+        .form-help {
+            display: block;
+            margin-top: 6px;
+            color: var(--muted);
+            font-size: 12px;
+        }
+
+        .primary-button {
+            width: 100%;
+            margin-top: 25px;
+            padding: 14px 18px;
+            border: none;
+            border-radius: 10px;
+            background: var(--green);
+            color: white;
+            font: inherit;
+            font-weight: 750;
+            cursor: pointer;
+        }
+
+        .primary-button:hover {
+            background: var(--green-dark);
+        }
+
+        .result-panel {
+            padding: 25px;
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            background: var(--green-pale);
+        }
+
+        .result-icon {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 58px;
+            height: 58px;
+            margin-bottom: 18px;
+            border-radius: 15px;
+            background: var(--green-soft);
+            font-size: 29px;
+        }
+
+        .result-panel h3 {
+            color: var(--green-dark);
+            font-size: 21px;
+        }
+
+        .result-value {
+            margin-top: 22px;
+            padding: 22px 15px;
+            border: 1px dashed #b7cbb4;
+            border-radius: 13px;
+            background: white;
+            text-align: center;
+        }
+
+        .result-value strong {
+            display: block;
+            color: var(--green-dark);
+            font-size: 32px;
+        }
+
+        .result-value span {
+            color: var(--muted);
+            font-size: 13px;
+        }
+
+        .notice {
+            margin-top: 18px;
+            padding: 14px;
+            border-radius: 10px;
+            background: var(--yellow-soft);
+            color: #72580b;
+            font-size: 13px;
+            line-height: 1.8;
+        }
+
+        .error-notice {
+            margin-bottom: 20px;
+            padding: 14px 16px;
+            border-radius: 10px;
+            border: 1px solid #e5a5a5;
+            background: #fff1f1;
+            color: #8b2424;
+            line-height: 1.7;
+        }
+
+        .steps-list {
+            margin: 18px 0 0 20px;
+            color: var(--muted);
+            font-size: 14px;
+        }
+
+        .steps-list li {
+            margin-bottom: 10px;
+            padding-left: 4px;
+        }
+
+        .map-panel {
+            margin-top: 24px;
+            padding: 26px;
+        }
+
+        #map {
+            width: 100%;
+            height: 480px;
+            margin-top: 18px;
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            overflow: hidden;
+            background: #f2f5ef;
+            z-index: 1;
+        }
+
+        .map-legend {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 12px;
+            margin-top: 14px;
+            color: var(--muted);
+            font-size: 13px;
+        }
+
+        .legend-color {
+            display: inline-block;
+            width: 13px;
+            height: 13px;
+            margin-right: 5px;
+            border: 1px solid #287a45;
+            border-radius: 3px;
+            vertical-align: middle;
+        }
+
+        @media (max-width: 900px) {
+            .prediction-layout {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 600px) {
+
+            .page-panel,
+            .result-panel,
+            .map-panel {
+                padding: 18px;
+            }
+
+            #map {
+                height: 360px;
+            }
+        }
+
+        /* GRAFIK PERKEMBANGAN PREDIKSI */
+        .chart-panel {
+            margin-top: 24px;
+            padding: 26px;
+        }
+
+        .chart-heading {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            gap: 14px;
+            flex-wrap: wrap;
+        }
+
+        .chart-heading h2 {
+            color: var(--green-dark);
+            font-size: 21px;
+        }
+
+        .chart-heading p {
+            color: var(--muted);
+            margin-top: 7px;
+            font-size: 14px;
+            line-height: 1.7;
+        }
+
+        .chart-unit {
+            padding: 9px 13px;
+            border-radius: 8px;
+            background: var(--green-soft);
+            color: var(--green-dark);
+            font-size: 12px;
+            font-weight: 700;
+        }
+
+        .chart-info {
+            margin-top: 18px;
+            padding: 12px 15px;
+            border-radius: 9px;
+            background: var(--green-soft);
+            color: var(--green-dark);
+            font-size: 13px;
+            line-height: 1.7;
+        }
+
+        .chart-container {
+            position: relative;
+            width: 100%;
+            height: 360px;
+            margin-top: 18px;
+        }
+
+        .chart-footer {
+            display: flex;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-top: 14px;
+            color: var(--muted);
+            font-size: 12px;
+        }
+
+        @media (max-width: 600px) {
+            .chart-panel {
+                padding: 18px;
+            }
+
+            .chart-container {
+                height: 280px;
+            }
+
+            .chart-heading h2 {
+                font-size: 18px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="app-layout">
+
+        <aside class="sidebar">
+            <a href="/" class="sidebar-brand">
+                <div class="brand-icon">🌾</div>
+                <div>
+                    <h2>OPT BOJONEGORO</h2>
+                    <p>SISTEM PROTEKSI TANAMAN</p>
+                </div>
+            </a>
+
+            <p class="sidebar-label">MENU UTAMA</p>
+
+            <nav class="sidebar-menu">
+                <a href="/" class="menu-item">
+                    <span class="menu-icon">▦</span>
+                    <span>Dashboard</span>
+                </a>
+
+                <a href="/data-historis" class="menu-item">
+                    <span class="menu-icon">◷</span>
+                    <span>Data Historis</span>
+                </a>
+
+                <a href="/data-opt" class="menu-item">
+                    <span class="menu-icon">♧</span>
+                    <span>Data OPT</span>
+                </a>
+
+                <a href="/prediksi" class="menu-item active">
+                    <span class="menu-icon">⌁</span>
+                    <span>Prediksi OPT</span>
+                </a>
+
+                <a href="/evaluasi" class="menu-item">
+                    <span class="menu-icon">▤</span>
+                    <span>Model &amp; Evaluasi</span>
+                </a>
+
+                <a href="/profil-admin" class="menu-item">
+                    <span class="menu-icon">♙</span>
+                    <span>Profil Admin</span>
+                </a>
+            </nav>
+
+            <div class="sidebar-bottom">
+                <div class="sidebar-status">
+                    <span class="status-dot"></span>
+                    <div>
+                        <strong>Sistem Informasi OPT</strong>
+                        <small>Kabupaten Bojonegoro</small>
+                    </div>
+                </div>
+
+                <a href="/logout" class="logout-button">
+                    <span class="logout-icon">⇥</span>
+                    <span>Logout</span>
+                </a>
+            </div>
+        </aside>
+
+        <main class="main-content">
+
+            <header class="content-header">
+                <div class="header-copy">
+                    <p class="breadcrumb">
+                        Beranda <span>/</span> Prediksi OPT
+                    </p>
+
+                    <h1>Prediksi OPT</h1>
+
+                    <p class="header-description">
+                        Perkiraan luas serangan Organisme Pengganggu Tanaman
+                        pada tanaman padi di Kabupaten Bojonegoro.
+                    </p>
+                </div>
+
+                <div class="admin-badge">
+                    <div class="admin-avatar">A</div>
+                    <div>
+                        <strong>Administrator</strong>
+                        <small>Panel Admin</small>
+                    </div>
+                </div>
+            </header>
+
+            {% if pesan_error %}
+            <div class="error-notice" role="alert">
+                {{ pesan_error }}
+            </div>
+            {% endif %}
+
+            <section class="summary-grid">
+
+                <article class="summary-card">
+                    <div class="summary-top">
+                        <span>Metode</span>
+                        <span class="card-icon green-icon">⌁</span>
+                    </div>
+                    <p class="summary-value method-value">Random Forest</p>
+                    <p class="summary-caption">Algoritma prediksi</p>
+                </article>
+
+                <article class="summary-card">
+                    <div class="summary-top">
+                        <span>Tahun Prediksi</span>
+                        <span class="card-icon yellow-icon">◷</span>
+                    </div>
+                    <p class="summary-value" id="ringkasanTahunPrediksi">2026</p>
+                    <p class="summary-caption">Tahun yang dipilih</p>
+                </article>
+
+                <article class="summary-card">
+                    <div class="summary-top">
+                        <span>Hasil Prediksi</span>
+                        <span class="card-icon orange-icon">▤</span>
+                    </div>
+                    <p class="summary-value">Hektare</p>
+                    <p class="summary-caption">Satuan luas serangan</p>
+                </article>
+
+                <article class="summary-card">
+                    <div class="summary-top">
+                        <span>Data Historis</span>
+                        <span class="card-icon green-icon">🌾</span>
+                    </div>
+                    <p class="summary-value">2020–2025</p>
+                    <p class="summary-caption">Periode data historis tersedia</p>
+                </article>
+
+            </section>
+
+            <section class="prediction-layout">
+
+                <article class="panel page-panel">
+                    <h2>Pengaturan Prediksi</h2>
+
+                    <p style="color:var(--muted); margin-top:6px;">
+                        Pilih wilayah dan jenis OPT yang ingin diprediksi.
+                    </p>
+
+                    <form id="predictionForm">
+
+                        <div class="form-group">
+                            <label for="kecamatan">Kecamatan</label>
+
+                            <select class="form-control" id="kecamatan" name="kecamatan" required>
+                                <option value="">Pilih kecamatan</option>
+
+                                {% for item in kecamatan_list %}
+                                <option value="{{ item.kecamatan }}">
+                                    {{ item.kecamatan }}
+                                </option>
+                                {% endfor %}
+                            </select>
+
+                            <small class="form-help">
+                                Daftar kecamatan diambil dari database data historis.
+                            </small>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="jenisOpt">Jenis OPT</label>
+
+                            <select class="form-control" id="jenisOpt" name="jenis_opt" required>
+                                <option value="">Pilih jenis OPT</option>
+
+                                {% for item in jenis_opt_list %}
+                                <option value="{{ item.jenis_opt }}">
+                                    {{ item.jenis_opt }}
+                                </option>
+                                {% endfor %}
+                            </select>
+
+                            <small class="form-help">
+                                Daftar jenis OPT mengikuti nama yang tersimpan pada dataset.
+                            </small>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="tahun">Tahun Prediksi</label>
+
+                            <input class="form-control" id="tahun" name="tahun" type="number" value="2026" min="2026"
+                                max="2030" step="1" required>
+
+                            <small class="form-help">
+                                Pilih tahun prediksi dari 2026 sampai 2030.
+                            </small>
+                        </div>
+
+                        <button class="primary-button" type="submit">
+                            Jalankan Prediksi
+                        </button>
+                    </form>
+
+                    <div class="notice">
+                        Model Random Forest digunakan untuk menghitung prediksi.
+                        Prediksi 2026 memakai data aktual 2025; tahun berikutnya
+                        menggunakan hasil prediksi tahun sebelumnya.
+                    </div>
+                </article>
+
+                <aside class="result-panel">
+                    <div class="result-icon">📊</div>
+
+                    <h3>Hasil Prediksi</h3>
+
+                    <p style="color:var(--muted); margin-top:6px;">
+                        Perkiraan luas serangan berdasarkan pilihan yang ditentukan.
+                    </p>
+
+                    <div class="result-value">
+                        <strong id="hasilAngka">—</strong>
+                        <span>Hektare (Ha)</span>
+                    </div>
+
+                    <div class="notice" id="pesanHasil" role="status" aria-live="polite">
+                        Belum ada hasil prediksi.
+                    </div>
+
+                    <h3 style="margin-top:25px; font-size:17px;">
+                        Tahapan Prediksi
+                    </h3>
+
+                    <ol class="steps-list">
+                        <li>Memilih kecamatan dan jenis OPT.</li>
+                        <li>Mengambil data historis tahun sebelumnya.</li>
+                        <li>Memproses masukan menggunakan Random Forest.</li>
+                        <li>Menampilkan perkiraan luas serangan dalam hektare.</li>
+                    </ol>
+                </aside>
+
+            </section>
+
+            <!-- GRAFIK PERKEMBANGAN LUAS SERANGAN -->
+            <section class="panel chart-panel">
+                <div class="chart-heading">
+                    <div>
+                        <h2>Grafik Perkembangan Luas Serangan OPT</h2>
+                        <p>
+                            Data aktual tahun 2025 dan hasil prediksi Random Forest
+                            tahun 2026–2030 berdasarkan kecamatan dan jenis OPT yang dipilih.
+                        </p>
+                    </div>
+                    <div class="chart-unit">Satuan: Hektare (Ha)</div>
+                </div>
+
+                <div class="chart-info" id="chartInfo" role="status" aria-live="polite">
+                    Grafik akan ditampilkan setelah prediksi berhasil dijalankan.
+                </div>
+
+                <div class="chart-container">
+                    <canvas id="grafikPrediksi" role="img"
+                        aria-label="Grafik data aktual 2025 dan prediksi luas serangan OPT 2026 sampai 2030">
+                    </canvas>
+                </div>
+
+                <div class="chart-footer">
+                    <span>2025: Data aktual</span>
+                    <span>2026–2030: Hasil prediksi</span>
+                </div>
+            </section>
+
+            <!-- PETA KECAMATAN -->
+            <section class="panel map-panel">
+
+                <h2>Peta Kecamatan Kabupaten Bojonegoro</h2>
+
+                <p style="color:var(--muted); margin-top:6px;">
+                    Semua kecamatan ditampilkan pada peta.
+                    Kecamatan pilihan akan berwarna kuning setelah
+                    tombol Jalankan Prediksi ditekan.
+                </p>
+
+                <div id="map"></div>
+
+                <div class="map-legend">
+                    <span>
+                        <span class="legend-color" style="background:#81c784;"></span>
+                        Kecamatan lain
+                    </span>
+
+                    <span>
+                        <span class="legend-color" style="background:#ffca28; border-color:#174d2b;"></span>
+                        Kecamatan terpilih
+                    </span>
+                </div>
+
+                <div id="mapStatus" class="notice" role="status">
+                    Sedang memuat peta...
+                </div>
+
+            </section>
+
+            <!-- FOOTER -->
+            <footer class="dashboard-footer">
+                <div class="footer-mark">🌾</div>
+
+                <div>
+                    <strong>
+                        Sistem Prediksi Luas Serangan OPT Tanaman Padi
+                    </strong>
+                    <span>Kabupaten Bojonegoro</span>
+                </div>
+            </footer>
+
+        </main>
+    </div>
+
+    <!-- LIBRARY LEAFLET -->
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+    <script>
+        // Membuat peta Leaflet
+        const map = L.map("map");
+
+        // Menambahkan peta dasar OpenStreetMap
+        L.tileLayer(
+            "https://tile.openstreetmap.org/{z}/{x}/{y}.png",
+            {
+                attribution: "&copy; OpenStreetMap contributors",
+                maxZoom: 18
+            }
+        ).addTo(map);
+
+        let layerKecamatan = null;
+
+        // Tampilan normal semua kecamatan
+        const gayaNormal = {
+            color: "#287a45",
+            weight: 1.5,
+            fillColor: "#81c784",
+            fillOpacity: 0.45
+        };
+
+        // Tampilan kecamatan terpilih
+        const gayaTerpilih = {
+            color: "#174d2b",
+            weight: 3,
+            fillColor: "#ffca28",
+            fillOpacity: 0.85
+        };
+
+        // Memuat batas kecamatan dari GeoJSON
+        fetch(
+            "{{ url_for('static', filename='data/batas_kecamatan_bojonegoro.geojson') }}"
+        )
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error(
+                        "File GeoJSON tidak ditemukan. Pastikan file berada di static/data."
+                    );
+                }
+
+                return response.json();
+            })
+            .then(data => {
+                if (!data.features || data.features.length === 0) {
+                    throw new Error(
+                        "File GeoJSON tidak memiliki fitur wilayah."
+                    );
+                }
+
+                layerKecamatan = L.geoJSON(data, {
+                    style: gayaNormal,
+
+                    onEachFeature: (feature, layer) => {
+                        const properties = feature.properties || {};
+
+                        const nama =
+                            properties.NAMOBJ ||
+                            properties.WADMKC ||
+                            properties.KECAMATAN ||
+                            properties.kecamatan ||
+                            "Kecamatan";
+
+                        layer.featureName = String(nama).trim();
+
+                        layer.bindTooltip(layer.featureName);
+
+                        layer.bindPopup(
+                            "<strong>Kecamatan " +
+                            layer.featureName +
+                            "</strong>"
+                        );
+                    }
+                }).addTo(map);
+
+                map.fitBounds(layerKecamatan.getBounds(), {
+                    padding: [15, 15]
+                });
+
+                document.getElementById("mapStatus").textContent =
+                    "Peta berhasil dimuat: " +
+                    data.features.length +
+                    " fitur wilayah.";
+
+                setTimeout(() => map.invalidateSize(), 200);
+            })
+            .catch(error => {
+                console.error("Kesalahan memuat peta:", error);
+
+                document.getElementById("mapStatus").textContent =
+                    "Peta gagal dimuat: " + error.message;
+
+                map.setView([-7.15, 111.88], 9);
+            });
+
+
+        // ======================================
+        // GRAFIK AKTUAL 2025 DAN PREDIKSI 2026–2030
+        // ======================================
+
+        let grafikPrediksi = null;
+
+        function tampilkanGrafikPrediksi(hasil) {
+            const canvas = document.getElementById("grafikPrediksi");
+            const info = document.getElementById("chartInfo");
+
+            if (typeof Chart === "undefined") {
+                info.textContent =
+                    "Library grafik gagal dimuat. Periksa koneksi internet lalu muat ulang halaman.";
+                return;
+            }
+
+            if (
+                !hasil ||
+                !Array.isArray(hasil.rangkaian_prediksi) ||
+                hasil.rangkaian_prediksi.length !== 5 ||
+                hasil.data_aktual_2025 === undefined
+            ) {
+                info.textContent =
+                    "Data rangkaian prediksi dari server belum lengkap. Grafik tidak dapat ditampilkan.";
+                return;
+            }
+
+            const tahunPrediksi = [2026, 2027, 2028, 2029, 2030];
+
+            const dataPrediksi = tahunPrediksi.map(tahun => {
+                const item = hasil.rangkaian_prediksi.find(
+                    baris => Number(baris.tahun) === tahun
+                );
+
+                return item ? Number(item.prediksi) : null;
+            });
+
+            if (dataPrediksi.some(nilai => nilai === null || !Number.isFinite(nilai))) {
+                info.textContent =
+                    "Rangkaian prediksi 2026–2030 dari server tidak lengkap atau tidak valid.";
+                return;
+            }
+
+            const labels = ["2025", "2026", "2027", "2028", "2029", "2030"];
+
+            const dataAktual = [
+                Number(hasil.data_aktual_2025),
+                null, null, null, null, null
+            ];
+
+            const dataForecast = [
+                null,
+                ...dataPrediksi
+            ];
+
+            if (grafikPrediksi) {
+                grafikPrediksi.destroy();
+            }
+
+            grafikPrediksi = new Chart(canvas, {
+                type: "line",
+                data: {
+                    labels: labels,
+                    datasets: [
+                        {
+                            label: "Data aktual",
+                            data: dataAktual,
+                            borderColor: "#2563eb",
+                            backgroundColor: "#2563eb",
+                            pointRadius: 6,
+                            pointHoverRadius: 8,
+                            borderWidth: 3,
+                            tension: 0.25,
+                            spanGaps: false
+                        },
+                        {
+                            label: "Prediksi Random Forest",
+                            data: dataForecast,
+                            borderColor: "#2e7d32",
+                            backgroundColor: "rgba(46, 125, 50, 0.12)",
+                            pointRadius: 5,
+                            pointHoverRadius: 8,
+                            borderWidth: 3,
+                            tension: 0.25,
+                            fill: false,
+                            spanGaps: false
+                        }
+                    ]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    interaction: {
+                        mode: "nearest",
+                        intersect: true
+                    },
+                    plugins: {
+                        legend: {
+                            position: "bottom"
+                        },
+                        tooltip: {
+                            callbacks: {
+                                label: function (context) {
+                                    if (context.raw === null) return null;
+
+                                    return context.dataset.label + ": " +
+                                        Number(context.raw).toLocaleString("id-ID", {
+                                            minimumFractionDigits: 0,
+                                            maximumFractionDigits: 4
+                                        }) + " Ha";
+                                }
+                            }
+                        }
+                    },
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            title: {
+                                display: true,
+                                text: "Luas serangan (Ha)"
+                            },
+                            ticks: {
+                                callback: function (value) {
+                                    return Number(value).toLocaleString("id-ID");
+                                }
+                            }
+                        },
+                        x: {
+                            title: {
+                                display: true,
+                                text: "Tahun"
+                            }
+                        }
+                    }
+                }
+            });
+
+            info.textContent =
+                "Kecamatan " + hasil.kecamatan +
+                " | " + hasil.jenis_opt +
+                " | Data aktual 2025 dan prediksi 2026–2030.";
+        }
+
+        // Menyelaraskan kartu ringkasan dengan tahun pilihan
+        const inputTahun = document.getElementById("tahun");
+
+        const ringkasanTahun = document.getElementById(
+            "ringkasanTahunPrediksi"
+        );
+
+        inputTahun.addEventListener("input", function () {
+            ringkasanTahun.textContent = inputTahun.value || "2026";
+        });
+
+        // Mengirim input ke Flask dan menjalankan Random Forest
+        document.getElementById("predictionForm").addEventListener(
+            "submit",
+            async function (event) {
+
+                event.preventDefault();
+
+                const pilihan =
+                    document.getElementById("kecamatan").value;
+
+                const jenisOpt =
+                    document.getElementById("jenisOpt").value;
+
+                const tahun =
+                    document.getElementById("tahun").value;
+
+                const pesanHasil =
+                    document.getElementById("pesanHasil");
+
+                const hasilAngka =
+                    document.getElementById("hasilAngka");
+
+                const tombol =
+                    this.querySelector('button[type="submit"]');
+
+                if (!pilihan || !jenisOpt || !tahun) {
+                    pesanHasil.textContent =
+                        "Lengkapi kecamatan, jenis OPT, dan tahun prediksi.";
+                    return;
+                }
+
+                if (Number(tahun) < 2026 || Number(tahun) > 2030) {
+                    pesanHasil.textContent =
+                        "Tahun prediksi harus antara 2026 sampai 2030.";
+                    return;
+                }
+
+                pesanHasil.textContent =
+                    "Sedang menghitung prediksi Random Forest...";
+
+                hasilAngka.textContent = "…";
+                tombol.disabled = true;
+                tombol.textContent = "Sedang Menghitung...";
+
+                try {
+
+                    const response = await fetch(
+                        "{{ url_for('api_prediksi') }}",
+                        {
+                            method: "POST",
+
+                            headers: {
+                                "Content-Type": "application/json"
+                            },
+
+                            body: JSON.stringify({
+                                kecamatan: pilihan,
+                                jenis_opt: jenisOpt,
+                                tahun: Number(tahun)
+                            })
+                        }
+                    );
+
+                    const hasil = await response.json();
+
+                    if (!response.ok || !hasil.success) {
+                        throw new Error(
+                            hasil.message ||
+                            "Prediksi gagal diproses."
+                        );
+                    }
+
+                    // Menampilkan angka hasil prediksi
+                    hasilAngka.textContent =
+                        Number(hasil.prediksi).toLocaleString("id-ID", {
+                            minimumFractionDigits: 2,
+                            maximumFractionDigits: 4
+                        }) + " Ha";
+
+                    pesanHasil.textContent =
+                        "Prediksi luas serangan OPT " +
+                        hasil.jenis_opt +
+                        " di Kecamatan " +
+                        hasil.kecamatan +
+                        " untuk tahun " +
+                        hasil.tahun +
+                        " adalah " +
+                        Number(hasil.prediksi).toLocaleString("id-ID") +
+                        " Ha. " +
+                        hasil.catatan;
+
+                    // Memperbarui grafik dari data yang dikirim API Flask
+                    tampilkanGrafikPrediksi(hasil);
+
+                    // Menandai kecamatan terpilih pada peta
+                    if (layerKecamatan) {
+
+                        let layerTerpilih = null;
+
+                        const namaPilihan = pilihan
+                            .trim()
+                            .toLocaleLowerCase("id-ID");
+
+                        layerKecamatan.eachLayer(layer => {
+
+                            const namaLayer = String(
+                                layer.featureName || ""
+                            )
+                                .trim()
+                                .toLocaleLowerCase("id-ID");
+
+                            const cocok =
+                                namaLayer === namaPilihan ||
+                                namaLayer.replace(
+                                    /^kecamatan\s+/,
+                                    ""
+                                ) === namaPilihan;
+
+                            if (cocok) {
+                                layer.setStyle(gayaTerpilih);
+                                layer.bringToFront();
+                                layerTerpilih = layer;
+                            } else {
+                                layer.setStyle(gayaNormal);
+                            }
+                        });
+
+                        if (layerTerpilih) {
+
+                            layerTerpilih.openPopup();
+
+                            map.fitBounds(
+                                layerTerpilih.getBounds(),
+                                {
+                                    padding: [25, 25],
+                                    maxZoom: 11
+                                }
+                            );
+                        }
+                    }
+
+                } catch (error) {
+
+                    hasilAngka.textContent = "—";
+
+                    pesanHasil.textContent =
+                        error.message;
+
+                } finally {
+
+                    tombol.disabled = false;
+                    tombol.textContent = "Jalankan Prediksi";
+                }
+            }
+        );
+    </script>
+
+</body>
+
+</html>

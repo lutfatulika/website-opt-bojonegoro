@@ -1,0 +1,292 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#315b3b">
+    <title>Dashboard Admin | OPT Bojonegoro</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+
+<body>
+    <div class="app-layout">
+
+        <aside class="sidebar">
+            <a href="/" class="sidebar-brand">
+                <div class="brand-icon">🌾</div>
+                <div>
+                    <h2>OPT BOJONEGORO</h2>
+                    <p>SISTEM PROTEKSI TANAMAN</p>
+                </div>
+            </a>
+
+            <p class="sidebar-label">MENU UTAMA</p>
+
+            <nav class="sidebar-menu">
+                <a href="/" class="menu-item active">
+                    <span class="menu-icon">▦</span>
+                    <span>Dashboard</span>
+                </a>
+                <a href="/data-historis" class="menu-item">
+                    <span class="menu-icon">◷</span>
+                    <span>Data Historis</span>
+                </a>
+                <a href="/data-opt" class="menu-item">
+                    <span class="menu-icon">♧</span>
+                    <span>Data OPT</span>
+                </a>
+                <a href="/prediksi" class="menu-item">
+                    <span class="menu-icon">⌁</span>
+                    <span>Prediksi OPT</span>
+                </a>
+                <a href="/evaluasi" class="menu-item">
+                    <span class="menu-icon">▤</span>
+                    <span>Model &amp; Evaluasi</span>
+                </a>
+                <a href="/profil-admin" class="menu-item">
+                    <span class="menu-icon">♙</span>
+                    <span>Profil Admin</span>
+                </a>
+            </nav>
+
+            <div class="sidebar-bottom">
+                <div class="sidebar-status">
+                    <span class="status-dot"></span>
+                    <div>
+                        <strong>Sistem Informasi OPT</strong>
+                        <small>Kabupaten Bojonegoro</small>
+                    </div>
+                </div>
+
+                <a href="/logout" class="logout-button">
+                    <span class="logout-icon">⇥</span>
+                    <span>Logout</span>
+                </a>
+            </div>
+        </aside>
+
+        <main class="main-content">
+
+            <header class="content-header">
+                <div class="header-copy">
+                    <p class="breadcrumb">Beranda <span>/</span> Dashboard</p>
+                    <h1>Dashboard</h1>
+                    <p class="header-description">
+                        Ringkasan data dan prediksi luas serangan Organisme
+                        Pengganggu Tanaman pada tanaman padi di Kabupaten Bojonegoro.
+                    </p>
+                </div>
+
+                <div class="admin-badge">
+                    <div class="admin-avatar">A</div>
+                    <div>
+                        <strong>Administrator</strong>
+                        <small>Panel Admin</small>
+                    </div>
+                </div>
+            </header>
+
+            <section class="summary-grid">
+                <article class="summary-card">
+                    <div class="summary-top">
+                        <span>Total Data Historis</span>
+                        <span class="card-icon green-icon">▤</span>
+                    </div>
+                    <p class="summary-value">—</p>
+                    <p class="summary-caption">Jumlah catatan data historis</p>
+                </article>
+
+                <article class="summary-card">
+                    <div class="summary-top">
+                        <span>Jumlah Kecamatan</span>
+                        <span class="card-icon yellow-icon">⌖</span>
+                    </div>
+                    <p class="summary-value">28</p>
+                    <p class="summary-caption">Kecamatan di Kabupaten Bojonegoro</p>
+                </article>
+
+                <article class="summary-card">
+                    <div class="summary-top">
+                        <span>Jenis OPT</span>
+                        <span class="card-icon orange-icon">♧</span>
+                    </div>
+                    <p class="summary-value">—</p>
+                    <p class="summary-caption">Jumlah jenis OPT dalam dataset</p>
+                </article>
+
+                <article class="summary-card">
+                    <div class="summary-top">
+                        <span>Metode Prediksi</span>
+                        <span class="card-icon green-icon">⌁</span>
+                    </div>
+                    <p class="summary-value method-value">Random Forest</p>
+                    <p class="summary-caption">Prediksi luas serangan dalam hektare</p>
+                </article>
+            </section>
+
+            <section class="section-heading">
+                <div>
+                    <h2>Ringkasan Data OPT</h2>
+                    <p>Pantau data historis dan informasi kategori OPT.</p>
+                </div>
+            </section>
+
+            <section class="analytics-grid">
+                <article class="panel chart-panel">
+                    <div class="panel-header">
+                        <div>
+                            <h3>Tren Luas Serangan</h3>
+                            <p>Perubahan luas serangan OPT berdasarkan tahun</p>
+                        </div>
+                        <span class="chart-unit">Hektare (Ha)</span>
+                    </div>
+
+                    <div class="chart-empty">
+                        <div class="empty-chart-icon">▥</div>
+                        <h4>Grafik Belum Tersedia</h4>
+                        <p>
+                            Grafik tren luas serangan akan ditampilkan
+                            setelah data penelitian tersedia.
+                        </p>
+                    </div>
+                </article>
+
+                <article class="panel distribution-panel">
+                    <div class="panel-header">
+                        <div>
+                            <h3>Kategori OPT</h3>
+                            <p>Jenis organisme pengganggu tanaman yang dikelola</p>
+                        </div>
+                    </div>
+
+                    <div class="opt-placeholder">
+                        <div class="plant-illustration">🌱</div>
+                        <h4>Data Kategori OPT</h4>
+                        <p>
+                            Informasi jenis OPT akan ditampilkan berdasarkan
+                            dataset penelitian.
+                        </p>
+                        <a href="/data-opt" class="outline-link">
+                            Lihat Data OPT <span>→</span>
+                        </a>
+                    </div>
+                </article>
+            </section>
+
+            <section class="section-heading">
+                <div>
+                    <h2>Evaluasi Model</h2>
+                    <p>Ringkasan kinerja model prediksi Random Forest.</p>
+                </div>
+                <a href="/evaluasi" class="text-link">
+                    Detail evaluasi <span>→</span>
+                </a>
+            </section>
+
+            <section class="evaluation-grid">
+                <article class="evaluation-card">
+                    <div class="evaluation-top">
+                        <span class="metric-icon green-icon">MAE</span>
+                        <span class="metric-label">Kesalahan absolut</span>
+                    </div>
+                    <strong>—</strong>
+                    <p>Rata-rata kesalahan prediksi dalam hektare.</p>
+                </article>
+
+                <article class="evaluation-card">
+                    <div class="evaluation-top">
+                        <span class="metric-icon orange-icon">RMSE</span>
+                        <span class="metric-label">Kesalahan kuadrat</span>
+                    </div>
+                    <strong>—</strong>
+                    <p>Akar rata-rata kesalahan kuadrat dalam hektare.</p>
+                </article>
+
+                <article class="evaluation-card">
+                    <div class="evaluation-top">
+                        <span class="metric-icon yellow-icon">R²</span>
+                        <span class="metric-label">Kecocokan model</span>
+                    </div>
+                    <strong>—</strong>
+                    <p>Koefisien determinasi hasil pengujian model.</p>
+                </article>
+            </section>
+
+            <section class="section-heading">
+                <div>
+                    <h2>Data Historis Terbaru</h2>
+                    <p>Pratinjau catatan luas serangan OPT tanaman padi.</p>
+                </div>
+                <a href="/data-historis" class="text-link">
+                    Lihat semua <span>→</span>
+                </a>
+            </section>
+
+            <section class="panel table-panel">
+                <div class="table-wrapper">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Tahun</th>
+                                <th>Kecamatan</th>
+                                <th>Jenis OPT</th>
+                                <th>Luas Serangan (Ha)</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td colspan="4" class="empty-state">
+                                    <div class="empty-icon">▤</div>
+                                    <strong>Belum ada data untuk ditampilkan</strong>
+                                    <span>Data akan muncul setelah tersedia di database.</span>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+
+            <section class="section-heading">
+                <div>
+                    <h2>Akses Cepat</h2>
+                    <p>Akses menu pengelolaan sistem penelitian.</p>
+                </div>
+            </section>
+
+            <section class="quick-grid">
+                <a href="/data-historis" class="quick-card">
+                    <span class="quick-icon green-icon">▤</span>
+                    <strong>Data Historis</strong>
+                    <span>Kelola catatan luas serangan OPT.</span>
+                    <span class="quick-arrow">→</span>
+                </a>
+
+                <a href="/data-opt" class="quick-card">
+                    <span class="quick-icon orange-icon">♧</span>
+                    <strong>Data OPT</strong>
+                    <span>Kelola kategori organisme pengganggu tanaman.</span>
+                    <span class="quick-arrow">→</span>
+                </a>
+
+                <a href="/prediksi" class="quick-card">
+                    <span class="quick-icon yellow-icon">⌁</span>
+                    <strong>Prediksi OPT</strong>
+                    <span>Akses fitur prediksi luas serangan.</span>
+                    <span class="quick-arrow">→</span>
+                </a>
+            </section>
+
+            <footer class="dashboard-footer">
+                <div class="footer-mark">🌾</div>
+                <div>
+                    <strong>Sistem Prediksi Luas Serangan OPT Tanaman Padi</strong>
+                    <span>Kabupaten Bojonegoro</span>
+                </div>
+            </footer>
+
+        </main>
+    </div>
+</body>
+
+</html>

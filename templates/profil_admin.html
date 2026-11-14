@@ -1,0 +1,430 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Profil Admin | OPT Bojonegoro</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+
+    <style>
+        .profile-layout {
+            display: grid;
+            grid-template-columns: minmax(260px, 0.8fr) minmax(0, 1.5fr);
+            gap: 24px;
+            align-items: start;
+        }
+
+        .profile-card,
+        .profile-form-card,
+        .account-card {
+            padding: 26px;
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            background: white;
+            box-shadow: var(--shadow);
+        }
+
+        .profile-card {
+            text-align: center;
+        }
+
+        .profile-avatar {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 100px;
+            height: 100px;
+            margin: 5px auto 18px;
+            border-radius: 25px;
+            background: var(--green-soft);
+            color: var(--green);
+            font-size: 42px;
+            font-weight: 800;
+        }
+
+        .profile-card h2 {
+            color: var(--green-dark);
+            font-size: 23px;
+        }
+
+        .profile-role {
+            display: inline-block;
+            margin-top: 9px;
+            padding: 6px 13px;
+            border-radius: 20px;
+            background: var(--green-soft);
+            color: var(--green);
+            font-size: 13px;
+            font-weight: 750;
+        }
+
+        .profile-card>p {
+            margin-top: 17px;
+            color: var(--muted);
+            font-size: 14px;
+            line-height: 1.8;
+        }
+
+        .profile-info {
+            margin-top: 25px;
+            padding-top: 20px;
+            border-top: 1px solid var(--border);
+            text-align: left;
+        }
+
+        .profile-info div {
+            margin-bottom: 16px;
+        }
+
+        .profile-info span,
+        .profile-info strong {
+            display: block;
+        }
+
+        .profile-info span {
+            color: var(--muted);
+            font-size: 13px;
+        }
+
+        .profile-info strong {
+            margin-top: 4px;
+            color: var(--green-dark);
+            font-size: 15px;
+            overflow-wrap: anywhere;
+        }
+
+        .profile-form-card h2,
+        .account-card h2 {
+            margin-bottom: 7px;
+            color: var(--green-dark);
+            font-size: 22px;
+        }
+
+        .card-description {
+            margin-bottom: 23px;
+            color: var(--muted);
+            font-size: 14px;
+            line-height: 1.8;
+        }
+
+        .profile-form {
+            display: grid;
+            gap: 18px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 7px;
+            color: var(--green-dark);
+            font-size: 14px;
+            font-weight: 750;
+        }
+
+        .form-group input {
+            width: 100%;
+            min-height: 47px;
+            padding: 11px 13px;
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            background: #fff;
+            color: var(--text);
+            font: inherit;
+            font-size: 14px;
+        }
+
+        .form-group input:focus {
+            outline: 2px solid #b6cbb4;
+            border-color: var(--green);
+        }
+
+        .form-help {
+            margin-top: 6px;
+            color: var(--muted);
+            font-size: 12px;
+        }
+
+        .profile-actions {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 12px;
+            margin-top: 5px;
+        }
+
+        .primary-button,
+        .secondary-button {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 45px;
+            padding: 11px 17px;
+            border-radius: 10px;
+            font: inherit;
+            font-size: 14px;
+            font-weight: 750;
+            cursor: pointer;
+        }
+
+        .primary-button {
+            border: 1px solid var(--green);
+            background: var(--green);
+            color: white;
+        }
+
+        .primary-button:hover {
+            background: var(--green-dark);
+        }
+
+        .secondary-button {
+            border: 1px solid var(--border);
+            background: white;
+            color: var(--green-dark);
+        }
+
+        .account-card {
+            margin-top: 24px;
+        }
+
+        .account-status {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-top: 18px;
+            padding: 15px;
+            border-radius: 12px;
+            background: var(--green-pale);
+        }
+
+        .account-status-icon {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 42px;
+            height: 42px;
+            flex-shrink: 0;
+            border-radius: 11px;
+            background: var(--green-soft);
+            color: var(--green);
+            font-size: 21px;
+        }
+
+        .account-status strong,
+        .account-status span {
+            display: block;
+        }
+
+        .account-status strong {
+            color: var(--green-dark);
+            font-size: 14px;
+        }
+
+        .account-status span {
+            margin-top: 3px;
+            color: var(--muted);
+            font-size: 13px;
+        }
+
+        .profile-notice {
+            margin-top: 20px;
+            padding: 15px;
+            border-radius: 11px;
+            background: var(--yellow-soft);
+            color: #72580b;
+            font-size: 13px;
+            line-height: 1.8;
+        }
+
+        @media (max-width: 950px) {
+            .profile-layout {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 600px) {
+
+            .profile-card,
+            .profile-form-card,
+            .account-card {
+                padding: 18px;
+            }
+
+            .profile-actions {
+                flex-direction: column;
+            }
+
+            .profile-actions button {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="app-layout">
+
+        <aside class="sidebar">
+            <a href="/" class="sidebar-brand">
+                <div class="brand-icon">🌾</div>
+                <div>
+                    <h2>OPT BOJONEGORO</h2>
+                    <p>SISTEM PROTEKSI TANAMAN</p>
+                </div>
+            </a>
+
+            <p class="sidebar-label">MENU UTAMA</p>
+
+            <nav class="sidebar-menu">
+                <a href="/" class="menu-item">
+                    <span class="menu-icon">▦</span><span>Dashboard</span>
+                </a>
+                <a href="/data-historis" class="menu-item">
+                    <span class="menu-icon">◷</span><span>Data Historis</span>
+                </a>
+                <a href="/data-opt" class="menu-item">
+                    <span class="menu-icon">♧</span><span>Data OPT</span>
+                </a>
+                <a href="/prediksi" class="menu-item">
+                    <span class="menu-icon">⌁</span><span>Prediksi OPT</span>
+                </a>
+                <a href="/evaluasi" class="menu-item">
+                    <span class="menu-icon">▤</span><span>Model &amp; Evaluasi</span>
+                </a>
+                <a href="/profil-admin" class="menu-item active">
+                    <span class="menu-icon">♙</span><span>Profil Admin</span>
+                </a>
+            </nav>
+
+            <div class="sidebar-bottom">
+                <div class="sidebar-status">
+                    <span class="status-dot"></span>
+                    <div>
+                        <strong>Sistem Informasi OPT</strong>
+                        <small>Kabupaten Bojonegoro</small>
+                    </div>
+                </div>
+                <a href="/logout" class="logout-button">
+                    <span class="logout-icon">⇥</span><span>Logout</span>
+                </a>
+            </div>
+        </aside>
+
+        <main class="main-content">
+            <header class="content-header">
+                <div class="header-copy">
+                    <p class="breadcrumb">Beranda <span>/</span> Profil Admin</p>
+                    <h1>Profil Admin</h1>
+                    <p class="header-description">
+                        Informasi akun administrator yang mengelola
+                        Sistem Prediksi Luas Serangan OPT Tanaman Padi.
+                    </p>
+                </div>
+
+                <div class="admin-badge">
+                    <div class="admin-avatar">A</div>
+                    <div>
+                        <strong>Administrator</strong>
+                        <small>Panel Admin</small>
+                    </div>
+                </div>
+            </header>
+
+            <section class="profile-layout">
+                <article>
+                    <div class="profile-card">
+                        <div class="profile-avatar">A</div>
+                        <h2>Administrator</h2>
+                        <span class="profile-role">Pengelola Sistem</span>
+                        <p>
+                            Akun administrator untuk mengelola data historis,
+                            data OPT, serta informasi prediksi dan evaluasi model.
+                        </p>
+
+                        <div class="profile-info">
+                            <div>
+                                <span>Nama akun</span>
+                                <strong>Administrator</strong>
+                            </div>
+                            <div>
+                                <span>Hak akses</span>
+                                <strong>Admin Sistem</strong>
+                            </div>
+                            <div>
+                                <span>Wilayah penelitian</span>
+                                <strong>Kabupaten Bojonegoro</strong>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="account-card">
+                        <h2>Status Sistem</h2>
+                        <p class="card-description">
+                            Informasi umum halaman administrator.
+                        </p>
+                        <div class="account-status">
+                            <div class="account-status-icon">✓</div>
+                            <div>
+                                <strong>Halaman antarmuka tersedia</strong>
+                                <span>Data akun belum terhubung ke database.</span>
+                            </div>
+                        </div>
+                    </div>
+                </article>
+
+                <article class="profile-form-card">
+                    <h2>Informasi Profil</h2>
+                    <p class="card-description">
+                        Formulir tampilan untuk informasi administrator.
+                        Penyimpanan perubahan akan dibuat setelah integrasi database.
+                    </p>
+
+                    <form class="profile-form"
+                        onsubmit="event.preventDefault(); alert('Formulir ini belum terhubung ke database.');">
+                        <div class="form-group">
+                            <label for="nama">Nama administrator</label>
+                            <input id="nama" type="text" value="Administrator">
+                        </div>
+
+                        <div class="form-group">
+                            <label for="email">Alamat email</label>
+                            <input id="email" type="email" placeholder="Masukkan alamat email">
+                        </div>
+
+                        <div class="form-group">
+                            <label for="username">Username</label>
+                            <input id="username" type="text" value="admin">
+                        </div>
+
+                        <div class="form-group">
+                            <label for="password">Password baru</label>
+                            <input id="password" type="password" placeholder="Masukkan password baru">
+                            <p class="form-help">
+                                Jangan masukkan password asli dulu. Fitur ini belum aktif.
+                            </p>
+                        </div>
+
+                        <div class="profile-actions">
+                            <button class="primary-button" type="submit">Simpan Perubahan</button>
+                            <button class="secondary-button" type="reset">Reset Form</button>
+                        </div>
+                    </form>
+
+                    <div class="profile-notice">
+                        <strong>Catatan:</strong> formulir ini masih berupa desain.
+                        Perubahan nama, email, username, dan password belum disimpan.
+                        Fitur tersebut baru diaktifkan setelah database dan autentikasi dibuat.
+                    </div>
+                </article>
+            </section>
+
+            <footer class="dashboard-footer">
+                <div class="footer-mark">🌾</div>
+                <div>
+                    <strong>Sistem Prediksi Luas Serangan OPT Tanaman Padi</strong>
+                    <span>Kabupaten Bojonegoro</span>
+                </div>
+            </footer>
+        </main>
+    </div>
+</body>
+
+</html>

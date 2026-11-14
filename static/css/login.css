@@ -1,0 +1,1136 @@
+:root {
+    --green: #315f47;
+    --green-dark: #244a37;
+    --green-soft: #e7f0e6;
+    --yellow: #edcc69;
+    --text: #263f32;
+    --muted: #758579;
+}
+
+/* ==============================
+   RESET
+============================== */
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+.login-body {
+    min-height: 100vh;
+    font-family: "Segoe UI", Arial, sans-serif;
+    background: #fafbf9;
+    color: var(--text);
+}
+
+.login-container {
+    display: grid;
+    grid-template-columns: 52% 48%;
+    width: 100%;
+    min-height: 100vh;
+}
+
+/* ==============================
+   ANIMASI BOLA-BOLA
+============================== */
+
+@keyframes float-a {
+
+    0%,
+    100% {
+        transform: translate(0, 0);
+    }
+
+    50% {
+        transform: translate(14px, 18px);
+    }
+}
+
+@keyframes float-b {
+
+    0%,
+    100% {
+        transform: translate(0, 0);
+    }
+
+    50% {
+        transform: translate(-16px, -14px);
+    }
+}
+
+@keyframes float-c {
+
+    0%,
+    100% {
+        transform: translateY(0);
+    }
+
+    50% {
+        transform: translateY(-14px);
+    }
+}
+
+@keyframes pulse-soft {
+
+    0%,
+    100% {
+        transform: scale(1);
+        opacity: .9;
+    }
+
+    50% {
+        transform: scale(1.18);
+        opacity: 1;
+    }
+}
+
+@keyframes drift-x {
+
+    0%,
+    100% {
+        transform: translate(0, 0) scale(1);
+    }
+
+    33% {
+        transform: translate(26px, -22px) scale(1.12);
+    }
+
+    66% {
+        transform: translate(-18px, 20px) scale(.92);
+    }
+}
+
+@keyframes rise {
+    0% {
+        transform: translateY(0) scale(1);
+        opacity: .85;
+    }
+
+    50% {
+        transform: translateY(-34px) scale(1.15);
+        opacity: 1;
+    }
+
+    100% {
+        transform: translateY(0) scale(1);
+        opacity: .85;
+    }
+}
+
+/* ==============================
+   PANEL KIRI
+============================== */
+
+.left-panel {
+    position: relative;
+    isolation: isolate;
+    overflow: hidden;
+
+    /* Susunan vertikal dipusatkan, jarak diatur oleh gap */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 34px;
+
+    width: 100%;
+    min-width: 0;
+    min-height: 100vh;
+    padding: 40px 38px;
+
+    background: linear-gradient(140deg, #edf3eb, #e1ebe0);
+}
+
+/* Bola hijau besar kiri atas */
+.left-panel::before {
+    content: "";
+    position: absolute;
+    z-index: -1;
+    width: 240px;
+    height: 240px;
+    top: -140px;
+    left: -130px;
+    border-radius: 50%;
+    background: #8eae92;
+    animation: drift-x 9s ease-in-out infinite;
+}
+
+/* Bola hijau kiri bawah + bola kuning kecil */
+.left-panel::after {
+    content: "";
+    position: absolute;
+    z-index: -1;
+    width: 280px;
+    height: 170px;
+    left: -110px;
+    bottom: -95px;
+    border-radius: 50%;
+    background: #86a88c;
+    box-shadow: 95px 5px 0 -35px var(--yellow);
+    animation: drift-x 12s ease-in-out infinite reverse;
+}
+
+/* ==============================
+   LOGO DAN IDENTITAS
+============================== */
+
+.brand {
+    position: relative;
+    z-index: 3;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    width: fit-content;
+    max-width: 100%;
+    gap: 22px;
+    margin: 0;
+}
+
+/* Bola-bola animasi di sekitar logo */
+.brand::before {
+    content: "";
+    position: absolute;
+    z-index: -1;
+    width: 70px;
+    height: 70px;
+    top: -45px;
+    right: -120px;
+    border-radius: 50%;
+    background: rgba(134, 168, 140, .55);
+    animation: rise 6s ease-in-out infinite;
+}
+
+.brand::after {
+    content: "";
+    position: absolute;
+    z-index: -1;
+    width: 22px;
+    height: 22px;
+    top: 80px;
+    left: -110px;
+    border-radius: 50%;
+    background: var(--yellow);
+    animation: rise 5s ease-in-out infinite -2s;
+}
+
+.brand-logo-wrap {
+    position: relative;
+    flex: 0 0 104px;
+    width: 104px;
+    height: 122px;
+    overflow: hidden;
+    background: transparent;
+}
+
+.brand-logo {
+    position: absolute;
+    display: block;
+    width: 400px;
+    height: auto;
+    max-width: none;
+
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+
+    object-fit: contain;
+    mix-blend-mode: multiply;
+}
+
+.brand-text h3 {
+    margin: 0;
+    color: #194c3c;
+    font-size: 34px;
+    font-weight: 750;
+    line-height: 1.25;
+}
+
+.brand-text p {
+    margin-top: 10px;
+    color: #54745e;
+    font-size: 18px;
+    line-height: 1.5;
+}
+
+/* ==============================
+   ILUSTRASI MESIN PREDIKSI
+============================== */
+
+.illustration {
+    position: relative;
+    z-index: 2;
+    flex: 0 0 auto;
+
+    width: 100%;
+    max-width: 740px;
+    height: 410px;
+    margin: 0;
+}
+
+/* Garis putus-putus tipis di belakang ilustrasi */
+.illustration::before {
+    content: "";
+    position: absolute;
+    z-index: 0;
+    inset: 46px 34px 30px;
+    border: 1.5px dashed rgba(190, 170, 90, .55);
+    border-radius: 22px;
+}
+
+/* Bola kuning kecil di dekat laptop */
+.illustration::after {
+    content: "";
+    position: absolute;
+    z-index: 0;
+    width: 28px;
+    height: 28px;
+    top: 16px;
+    left: 44%;
+    border-radius: 50%;
+    background: var(--yellow);
+    animation: pulse-soft 4s ease-in-out infinite;
+}
+
+/* LAPTOP */
+
+.laptop {
+    position: absolute;
+    z-index: 1;
+    width: 76%;
+    left: 12%;
+    top: 55px;
+}
+
+.screen {
+    width: 100%;
+    height: 305px;
+    padding: 12px;
+    overflow: hidden;
+
+    background: white;
+    border: 7px solid #244c42;
+    border-bottom-width: 11px;
+    border-radius: 14px 14px 4px 4px;
+
+    box-shadow: 0 9px 20px rgba(36, 72, 55, .12);
+}
+
+.screen-header {
+    height: 19px;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    padding: 0 7px;
+    background: #8cbfa9;
+}
+
+.screen-header span {
+    display: block;
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    background: white;
+}
+
+/* ISI LAYAR */
+
+.screen-content {
+    display: grid;
+    grid-template-columns: minmax(0, 43%) minmax(0, 57%);
+    gap: 9px;
+
+    height: 245px;
+    padding: 12px;
+    background: #f5f9f4;
+}
+
+/* PETA */
+
+.screen-menu {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 0;
+
+    border: 1px solid #d6e4d7;
+    border-radius: 7px;
+    background: #fbfdfb;
+}
+
+.screen-menu::before {
+    content: "";
+    display: block;
+    width: 82%;
+    height: 85%;
+    background: #78a183;
+
+    clip-path: polygon(37% 0, 60% 9%, 75% 23%, 90% 34%,
+            82% 52%, 95% 70%, 73% 83%, 65% 100%,
+            46% 89%, 30% 96%, 19% 74%, 4% 65%,
+            15% 45%, 5% 25%, 27% 19%);
+}
+
+.screen-menu::after {
+    content: "";
+    position: absolute;
+    width: 20px;
+    height: 20px;
+    left: 54%;
+    top: 45%;
+    border: 2px solid white;
+    border-radius: 50%;
+    background: var(--yellow);
+    animation: pulse-soft 3s ease-in-out infinite;
+}
+
+.screen-menu i {
+    display: none;
+}
+
+/* GRAFIK BATANG */
+
+.screen-chart {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    min-width: 0;
+}
+
+.chart-title {
+    width: 55%;
+    height: 9px;
+    flex: 0 0 9px;
+    border-radius: 5px;
+    background: #cbdccf;
+}
+
+.bars {
+    display: flex;
+    flex: 1;
+    align-items: end;
+    justify-content: space-around;
+    gap: 7px;
+
+    min-height: 65px;
+    padding: 8px 10px 0;
+
+    border-bottom: 1px solid #dce7dc;
+    border-radius: 6px;
+    background: white;
+}
+
+.bars i {
+    display: block;
+    width: 15%;
+    border-radius: 4px 4px 0 0;
+    background: #739b7d;
+}
+
+.bars i:nth-child(1) {
+    height: 40%;
+}
+
+.bars i:nth-child(2) {
+    height: 65%;
+    background: #e9c95b;
+}
+
+.bars i:nth-child(3) {
+    height: 53%;
+}
+
+.bars i:nth-child(4) {
+    height: 90%;
+    background: #315f47;
+}
+
+.bars i:nth-child(5) {
+    height: 72%;
+    background: #e9c95b;
+}
+
+/* GRAFIK LINGKARAN */
+
+.mini-analytics {
+    display: flex;
+    flex: 0 0 74px;
+    align-items: center;
+    gap: 12px;
+
+    height: 74px;
+    padding: 7px;
+    border-radius: 6px;
+    background: white;
+}
+
+.donut {
+    position: relative;
+    flex: 0 0 48px;
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+
+    background: conic-gradient(#47795e 0 65%,
+            #edcc69 65% 85%,
+            #dce9dd 85%);
+}
+
+.donut::after {
+    content: "";
+    position: absolute;
+    width: 19px;
+    height: 19px;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    border-radius: 50%;
+    background: white;
+}
+
+.chart-lines {
+    flex: 1;
+    min-width: 0;
+}
+
+.chart-lines span {
+    display: block;
+    width: 85%;
+    height: 5px;
+    margin: 5px 0;
+    border-radius: 5px;
+    background: #cbdccf;
+}
+
+/* DASAR LAPTOP */
+
+.laptop-base {
+    width: 110%;
+    height: 11px;
+    margin-left: -5%;
+    background: #9eb8a8;
+    border-radius: 2px 2px 12px 12px;
+}
+
+/* KARTU MENGAMBANG */
+
+.floating-box {
+    position: absolute;
+    z-index: 4;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    border: 1px solid #d1e1d2;
+    border-radius: 12px;
+    background: white;
+    box-shadow: 0 5px 15px rgba(49, 91, 59, .10);
+    animation: float-c 6s ease-in-out infinite;
+}
+
+.pest-box {
+    top: 14px;
+    left: 0;
+    width: 155px;
+    height: 86px;
+    gap: 12px;
+}
+
+.mini-icon {
+    display: grid;
+    flex: 0 0 44px;
+    place-items: center;
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    background: #e5efe5;
+    color: #38664b;
+    font-size: 26px;
+}
+
+.mini-lines {
+    width: 55%;
+}
+
+.mini-lines span {
+    display: block;
+    height: 5px;
+    margin: 6px 0;
+    border-radius: 5px;
+    background: #cbdccf;
+}
+
+.graph-box {
+    top: 14px;
+    right: 2%;
+    width: 130px;
+    height: 92px;
+    padding: 14px;
+    animation-delay: -2s;
+}
+
+.graph-box svg {
+    display: block;
+    width: 100%;
+    height: 100%;
+    max-width: 100%;
+}
+
+.database-box {
+    right: 0;
+    bottom: 34px;
+    width: 80px;
+    height: 104px;
+    color: #477b62;
+    font-size: 44px;
+    animation-delay: -4s;
+}
+
+.gear-box {
+    bottom: 34px;
+    left: 0;
+    width: 80px;
+    height: 80px;
+    color: #477b62;
+    font-size: 40px;
+    animation-delay: -3s;
+}
+
+.floating-info {
+    display: none;
+}
+
+/* ==============================
+   JUDUL PENELITIAN
+============================== */
+
+.system-description {
+    position: relative;
+    z-index: 3;
+
+    width: 100%;
+    max-width: 700px;
+    margin: 0;
+
+    padding: 0 5px;
+    text-align: center;
+}
+
+.system-description::before {
+    content: "";
+    position: absolute;
+    z-index: -1;
+    width: 90px;
+    height: 90px;
+    left: -10px;
+    bottom: -70px;
+    border-radius: 50%;
+    background: rgba(134, 168, 140, .45);
+    animation: drift-x 10s ease-in-out infinite;
+}
+
+.system-description::after {
+    content: "";
+    position: absolute;
+    z-index: -1;
+    width: 36px;
+    height: 36px;
+    right: 20px;
+    bottom: -60px;
+    border-radius: 50%;
+    background: var(--yellow);
+    animation: rise 5.5s ease-in-out infinite -1s;
+}
+
+.system-description h1 {
+    margin: 0;
+    color: #194c3c;
+    font-size: 24px;
+    font-weight: 750;
+    line-height: 1.5;
+}
+
+.system-description p {
+    display: none;
+}
+
+/* =================================
+   PANEL KANAN
+================================= */
+
+.right-panel {
+    position: relative;
+    isolation: isolate;
+    overflow: hidden;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+
+    width: 100%;
+    min-width: 0;
+    min-height: 100vh;
+    padding: 40px 35px;
+
+    background: #fbfcfa;
+}
+
+/* Bola kuning besar kanan bawah */
+.right-panel::before {
+    content: "";
+    position: absolute;
+    z-index: -1;
+    width: 230px;
+    height: 230px;
+    right: -90px;
+    bottom: -100px;
+    border-radius: 50%;
+    background: #f3dc8c;
+    animation: float-b 10s ease-in-out infinite;
+}
+
+/* Bola hijau lembut kanan atas */
+.right-panel::after {
+    content: "";
+    position: absolute;
+    z-index: -1;
+    width: 150px;
+    height: 150px;
+    top: -70px;
+    right: -50px;
+    border-radius: 50%;
+    background: #dbe8da;
+    animation: float-a 12s ease-in-out infinite;
+}
+
+/* KARTU LOGIN */
+
+.login-card {
+    position: relative;
+    z-index: 2;
+
+    width: 100%;
+    max-width: 510px;
+    padding: 42px 40px;
+
+    border: 1px solid #e2eae1;
+    border-radius: 17px;
+    background: white;
+    box-shadow: 0 10px 28px rgba(40, 70, 48, .08);
+}
+
+/* JUDUL LOGIN */
+
+.login-heading {
+    margin-bottom: 32px;
+    text-align: center;
+}
+
+.login-symbol {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    width: 65px;
+    height: 65px;
+    margin: 0 auto 16px;
+
+    border-radius: 50%;
+    background: #205742;
+    color: white;
+}
+
+.login-symbol svg {
+    display: block;
+    width: 35px !important;
+    height: 35px !important;
+    max-width: 35px !important;
+    fill: none !important;
+    stroke: white;
+    stroke-width: 1.7;
+}
+
+.login-heading h2 {
+    margin: 0 0 8px;
+    color: #163e32;
+    font-size: 31px;
+    font-weight: 750;
+}
+
+.login-heading p {
+    color: #78877c;
+    font-size: 15px;
+}
+
+/* FORM USERNAME DAN PASSWORD */
+
+.form-group {
+    margin-bottom: 23px;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 9px;
+    color: #315b3b;
+    font-size: 15px;
+    font-weight: 700;
+}
+
+.input-wrapper {
+    display: flex;
+    align-items: center;
+    gap: 11px;
+
+    width: 100%;
+    height: 53px;
+    padding: 0 13px;
+
+    border: 1px solid #dce4dd;
+    border-radius: 9px;
+    background: white;
+}
+
+.input-wrapper:focus-within {
+    border-color: #72967b;
+    box-shadow: 0 0 0 3px rgba(91, 137, 101, .10);
+}
+
+.input-wrapper>svg {
+    display: block;
+    flex: 0 0 21px;
+
+    width: 21px !important;
+    height: 21px !important;
+    min-width: 21px;
+    max-width: 21px;
+
+    fill: none !important;
+    stroke: #385e49;
+    stroke-width: 1.8;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+}
+
+.input-wrapper input {
+    display: block;
+    flex: 1;
+    min-width: 0;
+    width: 100%;
+    height: 100%;
+    padding: 0;
+
+    border: 0;
+    outline: 0;
+    background: transparent;
+
+    color: #263c2d;
+    font-family: inherit;
+    font-size: 15px;
+}
+
+.input-wrapper input:focus {
+    border: 0;
+    box-shadow: none;
+}
+
+.input-wrapper input::placeholder {
+    color: #89988d;
+}
+
+/* TOMBOL LIHAT PASSWORD */
+
+.show-password {
+    display: flex;
+    flex: 0 0 25px;
+    align-items: center;
+    justify-content: center;
+
+    width: 25px;
+    height: 30px;
+    padding: 0;
+
+    border: 0;
+    background: transparent;
+    color: #587461;
+    cursor: pointer;
+}
+
+.show-password svg {
+    display: block;
+    width: 20px !important;
+    height: 20px !important;
+    fill: none !important;
+    stroke: currentColor;
+    stroke-width: 1.7;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+}
+
+/* TOMBOL MASUK */
+
+.login-button {
+    display: block;
+    width: 100%;
+    height: 53px;
+    margin-top: 5px;
+
+    border: 0;
+    border-radius: 9px;
+    background: #315f47;
+
+    color: white;
+    font-size: 16px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: background .2s ease;
+}
+
+.login-button:hover {
+    background: #244a37;
+}
+
+.login-button:focus-visible {
+    outline: 3px solid var(--yellow);
+    outline-offset: 2px;
+}
+
+.login-button span {
+    margin-left: 9px;
+    color: #edcc69;
+}
+
+/* INFORMASI LOGIN */
+
+.login-note {
+    display: flex;
+    align-items: center;
+    gap: 9px;
+    margin-top: 24px;
+    padding: 14px;
+
+    border-radius: 9px;
+    background: #edf3ed;
+
+    color: #637769;
+    font-size: 12px;
+    line-height: 1.6;
+}
+
+.login-note span {
+    flex: 0 0 auto;
+    color: #315f47;
+    font-size: 18px;
+}
+
+/* PESAN KESALAHAN */
+
+.login-error,
+.alert.error {
+    margin-bottom: 18px;
+    padding: 12px;
+    border: 1px solid #f0d3cb;
+    border-radius: 8px;
+    background: #fff0eb;
+    color: #a94d35;
+    font-size: 13px;
+}
+
+/* FOOTER */
+
+.footer-text {
+    position: absolute;
+    bottom: 22px;
+    color: #89958b;
+    font-size: 12px;
+    text-align: center;
+}
+
+/* =================================
+   TABLET
+================================= */
+
+@media (max-width: 1050px) and (min-width: 641px) {
+
+    .login-container {
+        grid-template-columns: 50% 50%;
+    }
+
+    .left-panel {
+        padding: 30px 22px;
+        gap: 22px;
+    }
+
+    .brand-logo-wrap {
+        flex: 0 0 68px;
+        width: 68px;
+        height: 82px;
+    }
+
+    .brand-logo {
+        width: 270px;
+    }
+
+    .brand-text h3 {
+        font-size: 21px;
+    }
+
+    .brand-text p {
+        font-size: 12px;
+    }
+
+    .illustration {
+        height: 290px;
+    }
+
+    .laptop {
+        top: 35px;
+    }
+
+    .screen {
+        height: 215px;
+    }
+
+    .screen-content {
+        height: 165px;
+    }
+
+    .system-description h1 {
+        font-size: 16px;
+    }
+
+    .right-panel {
+        padding: 25px 20px;
+    }
+
+    .login-card {
+        padding: 34px 25px;
+    }
+
+    .login-heading h2 {
+        font-size: 27px;
+    }
+}
+
+/* =================================
+   HP
+================================= */
+
+@media (max-width: 640px) {
+
+    .login-container {
+        display: flex;
+        flex-direction: column;
+    }
+
+    .left-panel {
+        width: 100%;
+        min-height: 0;
+        padding: 36px 20px 40px;
+        gap: 18px;
+    }
+
+    .brand {
+        gap: 12px;
+    }
+
+    .brand-logo-wrap {
+        flex: 0 0 60px;
+        width: 60px;
+        height: 76px;
+    }
+
+    .brand-logo {
+        width: 235px;
+    }
+
+    .brand-text h3 {
+        font-size: 18px;
+    }
+
+    .brand-text p {
+        font-size: 11px;
+    }
+
+    .illustration {
+        flex: 0 0 275px;
+        height: 275px;
+    }
+
+    .laptop {
+        top: 37px;
+        left: 11%;
+        width: 78%;
+    }
+
+    .screen {
+        height: 195px;
+    }
+
+    .screen-content {
+        height: 145px;
+    }
+
+    .pest-box {
+        width: 90px;
+        height: 55px;
+    }
+
+    .graph-box {
+        width: 75px;
+        height: 58px;
+    }
+
+    .gear-box,
+    .database-box {
+        width: 48px;
+        height: 48px;
+        font-size: 24px;
+    }
+
+    .system-description h1 {
+        font-size: 16px;
+    }
+
+    .right-panel {
+        width: 100%;
+        min-height: 600px;
+        padding: 30px 18px 60px;
+    }
+
+    .login-card {
+        max-width: 450px;
+        padding: 32px 23px;
+    }
+
+    .login-heading h2 {
+        font-size: 27px;
+    }
+
+    .footer-text {
+        position: static;
+        margin-top: 22px;
+    }
+}
+
+/* Hormati pengaturan "kurangi gerakan" */
+@media (prefers-reduced-motion: reduce) {
+
+    .brand::before,
+    .brand::after,
+    .system-description::before,
+    .system-description::after,
+    .left-panel::before,
+    .left-panel::after,
+    .right-panel::before,
+    .right-panel::after,
+    .illustration::after,
+    .screen-menu::after,
+    .floating-box {
+        animation: none;
+    }
+}

@@ -1,0 +1,303 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Login Admin - Sistem Prediksi OPT</title>
+
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/login.css') }}">
+</head>
+
+<body class="login-body">
+
+    <div class="login-container">
+
+        <!-- PANEL KIRI -->
+        <section class="left-panel">
+
+            <!-- LOGO DAN IDENTITAS SISTEM -->
+            <div class="brand">
+
+                <div class="brand-logo-wrap">
+                    <img src="{{ url_for('static', filename='img/Logo-Kabupaten-Bojonegoro.jpg') }}"
+                        alt="Logo Kabupaten Bojonegoro" class="brand-logo">
+                </div>
+
+                <div class="brand-text">
+                    <h3>Sistem Prediksi</h3>
+                    <h3>Luas Serangan OPT</h3>
+                    <p>Tanaman Padi — Kabupaten Bojonegoro</p>
+                </div>
+
+            </div>
+
+
+            <!-- ILUSTRASI DASHBOARD -->
+            <div class="illustration">
+
+                <!-- KARTU INFORMASI OPT -->
+                <div class="floating-box pest-box">
+                    <div class="mini-icon">✿</div>
+
+                    <div class="mini-lines">
+                        <span></span>
+                        <span></span>
+                        <span></span>
+                    </div>
+                </div>
+
+
+                <!-- GRAFIK PERTUMBUHAN -->
+                <div class="floating-box graph-box">
+
+                    <svg viewBox="0 0 100 65">
+                        <polyline points="5,50 28,30 48,46 72,18 94,7" fill="none" stroke="#47795e" stroke-width="4"
+                            stroke-linecap="round" stroke-linejoin="round" />
+
+                        <g fill="#47795e">
+                            <circle cx="5" cy="50" r="5" />
+                            <circle cx="28" cy="30" r="5" />
+                            <circle cx="48" cy="46" r="5" />
+                            <circle cx="72" cy="18" r="5" />
+                            <circle cx="94" cy="7" r="5" />
+                        </g>
+                    </svg>
+
+                </div>
+
+
+                <!-- LAPTOP -->
+                <div class="laptop">
+
+                    <div class="screen">
+
+                        <!-- BAGIAN ATAS LAPTOP -->
+                        <div class="screen-header">
+                            <span></span>
+                            <span></span>
+                            <span></span>
+                        </div>
+
+
+                        <!-- ISI DASHBOARD LAPTOP -->
+                        <div class="screen-content">
+
+                            <!-- ILUSTRASI PETA -->
+                            <div class="screen-menu"></div>
+
+
+                            <!-- GRAFIK DAN INFORMASI -->
+                            <div class="screen-chart">
+
+                                <div class="chart-title"></div>
+
+                                <div class="bars">
+                                    <i></i>
+                                    <i></i>
+                                    <i></i>
+                                    <i></i>
+                                    <i></i>
+                                </div>
+
+
+                                <!-- GRAFIK LINGKARAN -->
+                                <div class="mini-analytics">
+
+                                    <div class="donut"></div>
+
+                                    <div class="chart-lines">
+                                        <span></span>
+                                        <span></span>
+                                        <span></span>
+                                    </div>
+
+                                </div>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                    <!-- DASAR LAPTOP -->
+                    <div class="laptop-base"></div>
+
+                </div>
+
+
+                <!-- IKON DATABASE -->
+                <div class="floating-box database-box">
+                    ▤
+                </div>
+
+
+                <!-- IKON PENGATURAN -->
+                <div class="floating-box gear-box">
+                    ⚙
+                </div>
+
+            </div>
+
+
+            <!-- JUDUL PENELITIAN -->
+            <div class="system-description">
+
+                <h1>
+                    Sistem Prediksi Luas Serangan Organisme
+                    Pengganggu Tanaman (OPT) pada Tanaman Padi
+                    Berbasis Website di Kabupaten Bojonegoro
+                </h1>
+
+            </div>
+
+        </section>
+
+
+        <!-- PANEL KANAN -->
+        <section class="right-panel">
+
+            <div class="login-card">
+
+                <!-- JUDUL LOGIN -->
+                <div class="login-heading">
+
+                    <div class="login-symbol">
+
+                        <svg viewBox="0 0 24 24" width="35" height="35" fill="none" stroke="white" stroke-width="1.7">
+
+                            <circle cx="12" cy="8" r="4"></circle>
+
+                            <path d="M4 21c0-4.5 3.5-7 8-7s8 2.5 8 7"></path>
+
+                        </svg>
+
+                    </div>
+
+                    <h2>Login Admin</h2>
+
+                    <p>Silakan masuk untuk mengakses sistem</p>
+
+                </div>
+
+
+                <!-- PESAN KESALAHAN LOGIN -->
+                {% with messages = get_flashed_messages(with_categories=true) %}
+
+                {% for category, message in messages %}
+
+                <div class="login-error">
+                    {{ message }}
+                </div>
+
+                {% endfor %}
+
+                {% endwith %}
+
+
+                <!-- FORM LOGIN -->
+                <form method="POST" action="{{ url_for('login') }}">
+
+                    <!-- USERNAME -->
+                    <div class="form-group">
+
+                        <label for="username">
+                            Username
+                        </label>
+
+                        <div class="input-wrapper">
+
+                            <svg viewBox="0 0 24 24">
+                                <circle cx="12" cy="8" r="4" />
+                                <path d="M4 21c0-4.3 3.5-7 8-7s8 2.7 8 7" />
+                            </svg>
+
+                            <input type="text" id="username" name="username" placeholder="Masukkan username"
+                                autocomplete="username" required>
+
+                        </div>
+
+                    </div>
+
+
+                    <!-- PASSWORD -->
+                    <div class="form-group">
+
+                        <label for="password">
+                            Password
+                        </label>
+
+                        <div class="input-wrapper">
+
+                            <svg viewBox="0 0 24 24">
+                                <rect x="4" y="10" width="16" height="11" rx="2" />
+                                <path d="M8 10V7a4 4 0 0 1 8 0v3" />
+                            </svg>
+
+                            <input type="password" id="password" name="password" placeholder="Masukkan password"
+                                autocomplete="current-password" required>
+
+                            <button type="button" class="show-password" onclick="togglePassword()"
+                                aria-label="Tampilkan atau sembunyikan password">
+
+                                <svg viewBox="0 0 24 24">
+                                    <path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12z" />
+                                    <circle cx="12" cy="12" r="3" />
+                                </svg>
+
+                            </button>
+
+                        </div>
+
+                    </div>
+
+
+                    <!-- TOMBOL MASUK -->
+                    <button type="submit" class="login-button">
+                        Masuk <span>→</span>
+                    </button>
+
+                </form>
+
+
+                <!-- INFORMASI LOGIN -->
+                <div class="login-note">
+                    <span>ⓘ</span>
+
+                    Username dan password tidak boleh kosong.
+                </div>
+
+            </div>
+
+
+            <!-- FOOTER -->
+            <div class="footer-text">
+                Sistem Prediksi OPT · Kabupaten Bojonegoro
+            </div>
+
+        </section>
+
+    </div>
+
+
+    <!-- FUNGSI TAMPILKAN PASSWORD -->
+    <script>
+
+        function togglePassword() {
+
+            const input = document.getElementById("password");
+
+            if (input.type === "password") {
+                input.type = "text";
+            } else {
+                input.type = "password";
+            }
+
+        }
+
+    </script>
+
+</body>
+
+</html>

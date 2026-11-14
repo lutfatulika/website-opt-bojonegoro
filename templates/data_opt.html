@@ -1,0 +1,600 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Data OPT | OPT Bojonegoro</title>
+
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+
+    <style>
+        /* =====================================
+           HALAMAN DATA OPT
+        ===================================== */
+
+        .page-panel {
+            padding: 25px;
+            margin-bottom: 24px;
+            min-width: 0;
+        }
+
+        .info-note {
+            padding: 16px;
+            border-radius: 12px;
+            background: var(--green-soft);
+            color: var(--green-dark);
+            font-size: 14px;
+            line-height: 1.7;
+            margin-top: 18px;
+        }
+
+        .error-note {
+            background: #fff0ee;
+            color: #a32d21;
+        }
+
+        /* =====================================
+           GRID KARTU OPT
+        ===================================== */
+
+        .opt-grid {
+            display: grid;
+            grid-template-columns: repeat(3, minmax(0, 1fr));
+            gap: 22px;
+            margin-top: 22px;
+            width: 100%;
+            align-items: stretch;
+        }
+
+        /* =====================================
+           KARTU OPT
+        ===================================== */
+
+        .opt-card {
+            display: flex;
+            flex-direction: column;
+            min-width: 0;
+            width: 100%;
+            padding: 15px;
+            box-sizing: border-box;
+
+            border: 1px solid var(--border);
+            border-radius: 14px;
+            background: #ffffff;
+            box-shadow: var(--shadow);
+
+            overflow: hidden;
+            transition: transform 0.2s ease,
+                box-shadow 0.2s ease;
+        }
+
+        .opt-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 22px rgba(0, 0, 0, 0.08);
+        }
+
+        /* =====================================
+           FOTO OPT
+        ===================================== */
+
+        .opt-image {
+            display: block;
+            width: 100%;
+            height: 190px;
+            min-height: 190px;
+            max-height: 190px;
+
+            object-fit: cover;
+            object-position: center;
+
+            border-radius: 10px;
+            border: 1px solid var(--border);
+            background: #f1f5f1;
+
+            margin: 0 0 15px;
+            box-sizing: border-box;
+        }
+
+        /* =====================================
+           JUDUL OPT
+        ===================================== */
+
+        .opt-card h3 {
+            margin: 0 0 12px;
+            color: var(--green-dark);
+            font-size: 16px;
+            line-height: 1.5;
+            overflow-wrap: anywhere;
+        }
+
+        /* =====================================
+           DESKRIPSI OPT
+        ===================================== */
+
+        .opt-description {
+            margin: 0 0 14px;
+            padding: 13px;
+
+            border-radius: 10px;
+            background: var(--green-soft);
+
+            color: var(--green-dark);
+            font-size: 13px;
+            line-height: 1.7;
+        }
+
+        .opt-description p {
+            margin: 0;
+            color: var(--green-dark);
+        }
+
+        /* =====================================
+           INFORMASI HISTORIS
+        ===================================== */
+
+        .opt-card .opt-history {
+            margin: 0 0 14px;
+            color: var(--muted);
+            font-size: 13px;
+            line-height: 1.7;
+        }
+
+        .opt-label {
+            display: inline-block;
+            align-self: flex-start;
+            margin-top: auto;
+
+            padding: 7px 11px;
+            border-radius: 8px;
+
+            background: var(--yellow-soft);
+            color: #80620a;
+
+            font-size: 12px;
+            font-weight: 700;
+        }
+
+        /* =====================================
+           KONDISI DATA KOSONG
+        ===================================== */
+
+        .empty-state {
+            grid-column: 1 / -1;
+            padding: 35px 20px;
+            text-align: center;
+            color: var(--muted);
+        }
+
+        .empty-state strong {
+            display: block;
+            margin-bottom: 8px;
+            color: var(--green-dark);
+        }
+
+        /* =====================================
+           RESPONSIVE
+        ===================================== */
+
+        @media (max-width: 1100px) {
+            .opt-grid {
+                grid-template-columns: repeat(2, minmax(0, 1fr));
+            }
+        }
+
+        @media (max-width: 650px) {
+            .opt-grid {
+                grid-template-columns: 1fr;
+                gap: 16px;
+            }
+
+            .page-panel {
+                padding: 17px;
+            }
+
+            .opt-image {
+                height: 210px;
+                min-height: 210px;
+                max-height: 210px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="app-layout">
+
+        <!-- SIDEBAR -->
+        <aside class="sidebar">
+
+            <a href="/" class="sidebar-brand">
+                <div class="brand-icon">🌾</div>
+
+                <div>
+                    <h2>OPT BOJONEGORO</h2>
+                    <p>SISTEM PROTEKSI TANAMAN</p>
+                </div>
+            </a>
+
+            <p class="sidebar-label">MENU UTAMA</p>
+
+            <nav class="sidebar-menu">
+
+                <a href="/" class="menu-item">
+                    <span class="menu-icon">▦</span>
+                    <span>Dashboard</span>
+                </a>
+
+                <a href="/data-historis" class="menu-item">
+                    <span class="menu-icon">◷</span>
+                    <span>Data Historis</span>
+                </a>
+
+                <a href="/data-opt" class="menu-item active">
+                    <span class="menu-icon">♧</span>
+                    <span>Data OPT</span>
+                </a>
+
+                <a href="/prediksi" class="menu-item">
+                    <span class="menu-icon">⌁</span>
+                    <span>Prediksi OPT</span>
+                </a>
+
+                <a href="/evaluasi" class="menu-item">
+                    <span class="menu-icon">▤</span>
+                    <span>Model &amp; Evaluasi</span>
+                </a>
+
+                <a href="/profil-admin" class="menu-item">
+                    <span class="menu-icon">♙</span>
+                    <span>Profil Admin</span>
+                </a>
+
+            </nav>
+
+            <div class="sidebar-bottom">
+
+                <div class="sidebar-status">
+                    <span class="status-dot"></span>
+
+                    <div>
+                        <strong>Sistem Informasi OPT</strong>
+                        <small>Kabupaten Bojonegoro</small>
+                    </div>
+                </div>
+
+                <a href="/logout" class="logout-button">
+                    <span class="logout-icon">⇥</span>
+                    <span>Logout</span>
+                </a>
+
+            </div>
+
+        </aside>
+
+        <!-- KONTEN UTAMA -->
+        <main class="main-content">
+
+            <!-- HEADER -->
+            <header class="content-header">
+
+                <div class="header-copy">
+
+                    <p class="breadcrumb">
+                        Beranda <span>/</span> Data OPT
+                    </p>
+
+                    <h1>Data OPT</h1>
+
+                    <p class="header-description">
+                        Informasi jenis Organisme Pengganggu Tanaman
+                        pada komoditas padi di Kabupaten Bojonegoro.
+                    </p>
+
+                </div>
+
+                <div class="admin-badge">
+
+                    <div class="admin-avatar">A</div>
+
+                    <div>
+                        <strong>Administrator</strong>
+                        <small>Panel Admin</small>
+                    </div>
+
+                </div>
+
+            </header>
+
+            <!-- RINGKASAN DATA -->
+            <section class="summary-grid">
+
+                <article class="summary-card">
+
+                    <div class="summary-top">
+                        <span>Komoditas</span>
+                        <span class="card-icon green-icon">🌾</span>
+                    </div>
+
+                    <p class="summary-value">
+                        {{ ringkasan['komoditas'] or 'Padi' }}
+                    </p>
+
+                    <p class="summary-caption">
+                        Komoditas dalam dataset
+                    </p>
+
+                </article>
+
+                <article class="summary-card">
+
+                    <div class="summary-top">
+                        <span>Periode Data</span>
+                        <span class="card-icon yellow-icon">◷</span>
+                    </div>
+
+                    <p class="summary-value">
+                        {% if ringkasan['tahun_awal'] and ringkasan['tahun_akhir'] %}
+                        {{ ringkasan['tahun_awal'] }}–{{ ringkasan['tahun_akhir'] }}
+                        {% else %}
+                        —
+                        {% endif %}
+                    </p>
+
+                    <p class="summary-caption">
+                        Periode data historis
+                    </p>
+
+                </article>
+
+                <article class="summary-card">
+
+                    <div class="summary-top">
+                        <span>Wilayah</span>
+                        <span class="card-icon orange-icon">⌖</span>
+                    </div>
+
+                    <p class="summary-value">
+                        {{ ringkasan['jumlah_kecamatan'] or 0 }}
+                    </p>
+
+                    <p class="summary-caption">
+                        Kecamatan dalam dataset
+                    </p>
+
+                </article>
+
+                <article class="summary-card">
+
+                    <div class="summary-top">
+                        <span>Jenis OPT</span>
+                        <span class="card-icon green-icon">♧</span>
+                    </div>
+
+                    <p class="summary-value">
+                        {{ ringkasan['jumlah_jenis_opt'] or 0 }}
+                    </p>
+
+                    <p class="summary-caption">
+                        Jenis OPT yang tercatat
+                    </p>
+
+                </article>
+
+            </section>
+
+            <!-- INFORMASI JENIS OPT -->
+            <section class="panel page-panel">
+
+                <div class="section-heading" style="margin-top:0">
+
+                    <div>
+                        <h2>Informasi Jenis OPT</h2>
+
+                        <p>
+                            Informasi singkat mengenai jenis OPT
+                            yang tercatat dalam dataset penelitian.
+                        </p>
+                    </div>
+
+                </div>
+
+                {% if pesan_error %}
+
+                <div class="info-note error-note" role="alert">
+                    {{ pesan_error }}
+                </div>
+
+                {% else %}
+
+                <div class="info-note">
+
+                    Terdapat
+
+                    <strong>
+                        {{ ringkasan['jumlah_jenis_opt'] or 0 }}
+                    </strong>
+
+                    jenis OPT dengan total
+
+                    <strong>
+                        {{ ringkasan['total_catatan'] or 0 }}
+                    </strong>
+
+                    catatan historis dalam database.
+
+                </div>
+
+                {% endif %}
+
+                <!-- GRID KARTU OPT -->
+                <div class="opt-grid">
+
+                    {% for opt in opts %}
+
+                    {% set nama_opt = opt['jenis_opt']|lower %}
+                    {% set nama_file = 'opt-default.jpg' %}
+
+                    {% if 'magnaporthe' in nama_opt or 'blas' in nama_opt %}
+
+                    {% set nama_file = 'penyakit-blas.jpg' %}
+
+                    {% elif 'nilaparvata' in nama_opt or 'wereng' in nama_opt %}
+
+                    {% set nama_file = 'wereng-batang-cokelat.jpg' %}
+
+                    {% elif 'rattus' in nama_opt or 'tikus' in nama_opt %}
+
+                    {% set nama_file = 'tikus-sawah.jpg' %}
+
+                    {% elif 'scirpophaga' in nama_opt or 'penggerek' in nama_opt %}
+
+                    {% set nama_file = 'penggerek-batang.jpg' %}
+
+                    {% elif 'xanthomonas' in nama_opt or 'hawar' in nama_opt %}
+
+                    {% set nama_file = 'hawar-daun-bakteri.jpg' %}
+
+                    {% endif %}
+
+                    <article class="opt-card">
+
+                        <!-- FOTO OPT -->
+                        <img src="{{ url_for('static', filename='img/' ~ nama_file) }}"
+                            alt="Gejala {{ opt['jenis_opt'] }}" class="opt-image" loading="lazy">
+
+                        <!-- NAMA OPT (SATU KALI) -->
+                        <h3>
+                            {{ opt['jenis_opt'] }}
+                        </h3>
+
+                        <!-- DESKRIPSI -->
+                        <div class="opt-description">
+
+                            {% if 'magnaporthe' in nama_opt or 'blas' in nama_opt %}
+
+                            <p>
+                                Jamur yang menyerang daun dan leher
+                                malai padi, menyebabkan bercak dan
+                                dapat mengganggu pembentukan gabah.
+                            </p>
+
+                            {% elif 'nilaparvata' in nama_opt or 'wereng' in nama_opt %}
+
+                            <p>
+                                Serangga yang mengisap cairan tanaman,
+                                terutama di pangkal batang, sehingga
+                                tanaman menguning dan dapat mengering.
+                            </p>
+
+                            {% elif 'rattus' in nama_opt or 'tikus' in nama_opt %}
+
+                            <p>
+                                Menyerang dengan memakan dan menggigit
+                                batang, bibit, serta bulir padi sehingga
+                                tanaman mengalami kerusakan.
+                            </p>
+
+                            {% elif 'scirpophaga' in nama_opt or 'penggerek' in nama_opt %}
+
+                            <p>
+                                Larvanya masuk ke batang dan merusak
+                                jaringan di dalamnya, sehingga pucuk
+                                mengering atau malai tidak terisi.
+                            </p>
+
+                            {% elif 'xanthomonas' in nama_opt or 'hawar' in nama_opt %}
+
+                            <p>
+                                Bakteri yang menyerang daun padi
+                                sehingga menyebabkan bercak kekuningan,
+                                daun mengering, atau tanaman muda layu.
+                            </p>
+
+                            {% else %}
+
+                            <p>
+                                Informasi cara serangan untuk jenis
+                                OPT ini belum ditambahkan.
+                            </p>
+
+                            {% endif %}
+
+                        </div>
+
+                        <!-- INFORMASI HISTORIS -->
+                        <p class="opt-history">
+
+                            Tercatat sebanyak
+
+                            <strong>
+                                {{ opt['jumlah_catatan'] }}
+                            </strong>
+
+                            catatan pada
+
+                            <strong>
+                                {{ opt['jumlah_kecamatan'] }}
+                            </strong>
+
+                            kecamatan, dengan periode pencatatan
+
+                            {{ opt['tahun_awal'] }}–{{ opt['tahun_akhir'] }}.
+
+                        </p>
+
+                        <!-- LABEL JUMLAH DATA -->
+                        <span class="opt-label">
+
+                            {{ opt['jumlah_catatan'] }}
+                            catatan historis
+
+                        </span>
+
+                    </article>
+
+                    {% else %}
+
+                    <div class="empty-state">
+
+                        <strong>Data OPT belum tersedia</strong>
+
+                        <span>
+                            Belum ada jenis OPT yang dapat ditampilkan.
+                        </span>
+
+                    </div>
+
+                    {% endfor %}
+
+                </div>
+
+            </section>
+
+            <!-- FOOTER -->
+            <footer class="dashboard-footer">
+
+                <div class="footer-mark">🌾</div>
+
+                <div>
+
+                    <strong>
+                        Sistem Prediksi Luas Serangan OPT Tanaman Padi
+                    </strong>
+
+                    <span>
+                        Kabupaten Bojonegoro
+                    </span>
+
+                </div>
+
+            </footer>
+
+        </main>
+
+    </div>
+
+</body>
+
+</html>

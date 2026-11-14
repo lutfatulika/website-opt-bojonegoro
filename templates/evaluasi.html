@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Model & Evaluasi | OPT Bojonegoro</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <style>
+        .page-panel {
+            padding: 25px;
+            margin-bottom: 24px;
+        }
+
+        .metric-grid {
+            display: grid;
+            grid-template-columns: repeat(3, minmax(0, 1fr));
+            gap: 20px;
+        }
+
+        .metric-card {
+            padding: 23px;
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            background: white;
+            box-shadow: var(--shadow);
+        }
+
+        .metric-card h3 {
+            color: var(--muted);
+            font-size: 15px;
+        }
+
+        .metric-value {
+            display: block;
+            margin-top: 14px;
+            color: var(--green-dark);
+            font-size: 32px;
+            font-weight: 800;
+        }
+
+        .metric-card p {
+            margin-top: 8px;
+            color: var(--muted);
+            font-size: 13px;
+            line-height: 1.8;
+        }
+
+        .method-banner {
+            display: flex;
+            align-items: flex-start;
+            gap: 18px;
+            padding: 23px;
+            border-radius: 15px;
+            background: var(--green-soft);
+        }
+
+        .method-icon {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+            width: 55px;
+            height: 55px;
+            border-radius: 13px;
+            background: white;
+            font-size: 28px;
+        }
+
+        .method-banner h2 {
+            color: var(--green-dark);
+            font-size: 23px;
+        }
+
+        .method-banner p {
+            margin-top: 7px;
+            color: #526555;
+            line-height: 1.8;
+            font-size: 15px;
+        }
+
+        .explanation-list {
+            display: grid;
+            grid-template-columns: repeat(3, minmax(0, 1fr));
+            gap: 18px;
+        }
+
+        .explanation-item {
+            padding: 20px;
+            border: 1px solid var(--border);
+            border-radius: 13px;
+            background: white;
+        }
+
+        .explanation-item h3 {
+            color: var(--green-dark);
+            font-size: 17px;
+        }
+
+        .explanation-item p {
+            margin-top: 8px;
+            color: var(--muted);
+            font-size: 14px;
+            line-height: 1.8;
+        }
+
+        .notice {
+            padding: 16px;
+            border-radius: 12px;
+            background: var(--yellow-soft);
+            color: #72580b;
+            font-size: 14px;
+            line-height: 1.8;
+        }
+
+        @media (max-width: 900px) {
+
+            .metric-grid,
+            .explanation-list {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 600px) {
+            .page-panel {
+                padding: 17px;
+            }
+
+            .method-banner {
+                flex-direction: column;
+            }
+
+            .metric-value {
+                font-size: 28px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="app-layout">
+        <aside class="sidebar">
+            <a href="/" class="sidebar-brand">
+                <div class="brand-icon">🌾</div>
+                <div>
+                    <h2>OPT BOJONEGORO</h2>
+                    <p>SISTEM PROTEKSI TANAMAN</p>
+                </div>
+            </a>
+
+            <p class="sidebar-label">MENU UTAMA</p>
+            <nav class="sidebar-menu">
+                <a href="/" class="menu-item"><span class="menu-icon">▦</span><span>Dashboard</span></a>
+                <a href="/data-historis" class="menu-item"><span class="menu-icon">◷</span><span>Data
+                        Historis</span></a>
+                <a href="/data-opt" class="menu-item"><span class="menu-icon">♧</span><span>Data OPT</span></a>
+                <a href="/prediksi" class="menu-item"><span class="menu-icon">⌁</span><span>Prediksi OPT</span></a>
+                <a href="/evaluasi" class="menu-item active"><span class="menu-icon">▤</span><span>Model &amp;
+                        Evaluasi</span></a>
+                <a href="/profil-admin" class="menu-item"><span class="menu-icon">♙</span><span>Profil Admin</span></a>
+            </nav>
+
+            <div class="sidebar-bottom">
+                <div class="sidebar-status">
+                    <span class="status-dot"></span>
+                    <div><strong>Sistem Informasi OPT</strong><small>Kabupaten Bojonegoro</small></div>
+                </div>
+                <a href="/logout" class="logout-button"><span class="logout-icon">⇥</span><span>Logout</span></a>
+            </div>
+        </aside>
+
+        <main class="main-content">
+            <header class="content-header">
+                <div class="header-copy">
+                    <p class="breadcrumb">Beranda <span>/</span> Model &amp; Evaluasi</p>
+                    <h1>Model &amp; Evaluasi</h1>
+                    <p class="header-description">
+                        Informasi metode Random Forest dan hasil evaluasi
+                        model prediksi luas serangan OPT tanaman padi.
+                    </p>
+                </div>
+                <div class="admin-badge">
+                    <div class="admin-avatar">A</div>
+                    <div><strong>Administrator</strong><small>Panel Admin</small></div>
+                </div>
+            </header>
+
+            <section class="method-banner">
+                <div class="method-icon">🌳</div>
+                <div>
+                    <h2>Random Forest Regression</h2>
+                    <p>
+                        Random Forest merupakan metode machine learning yang
+                        menggabungkan hasil dari sejumlah pohon keputusan.
+                        Dalam penelitian ini, model digunakan untuk memperkirakan
+                        luas serangan OPT pada tanaman padi dalam satuan hektare.
+                    </p>
+                </div>
+            </section>
+
+            <section class="section-heading">
+                <div>
+                    <h2>Hasil Evaluasi Model</h2>
+                    <p>Hasil pengujian model dengan fitur luas serangan tahun sebelumnya.</p>
+                </div>
+            </section>
+
+            <section class="metric-grid">
+                <article class="metric-card">
+                    <h3>MAE</h3>
+                    <strong class="metric-value">10,6124 Ha</strong>
+                    <p>Rata-rata selisih absolut antara nilai aktual dan prediksi pada data pengujian.</p>
+                </article>
+
+                <article class="metric-card">
+                    <h3>RMSE</h3>
+                    <strong class="metric-value">35,0004 Ha</strong>
+                    <p>Ukuran kesalahan prediksi yang memberikan penalti lebih besar pada kesalahan besar.</p>
+                </article>
+
+                <article class="metric-card">
+                    <h3>R²</h3>
+                    <strong class="metric-value">0,0452</strong>
+                    <p>Koefisien determinasi. Nilai ini menunjukkan kemampuan model menjelaskan variasi target masih
+                        terbatas.</p>
+                </article>
+            </section>
+
+            <section class="section-heading">
+                <div>
+                    <h2>Pengertian Metrik</h2>
+                    <p>Arti setiap ukuran evaluasi yang digunakan dalam penelitian.</p>
+                </div>
+            </section>
+
+            <section class="explanation-list">
+                <article class="explanation-item">
+                    <h3>Mean Absolute Error (MAE)</h3>
+                    <p>Mengukur rata-rata besar kesalahan absolut prediksi. Nilai yang lebih kecil umumnya menunjukkan
+                        prediksi lebih dekat ke nilai aktual.</p>
+                </article>
+
+                <article class="explanation-item">
+                    <h3>Root Mean Squared Error (RMSE)</h3>
+                    <p>Mengukur kesalahan dengan memberi pengaruh lebih besar pada selisih yang besar. Nilainya
+                        dinyatakan dalam hektare.</p>
+                </article>
+
+                <article class="explanation-item">
+                    <h3>Koefisien Determinasi (R²)</h3>
+                    <p>Menilai seberapa jauh model menjelaskan variasi nilai aktual dibandingkan dengan pendekatan
+                        rata-rata. Nilai negatif juga mungkin terjadi pada pengujian.</p>
+                </article>
+            </section>
+
+            <section class="panel page-panel" style="margin-top:24px;">
+                <h2 style="color:var(--green-dark); margin-bottom:14px;">Catatan Pengujian</h2>
+                <div class="notice">
+                    Angka di atas merupakan hasil pengujian model yang telah dilakukan sebelumnya,
+                    bukan hasil prediksi aktual tahun 2026. Nilai R² yang rendah perlu dijelaskan
+                    sebagai keterbatasan model. Evaluasi ini juga perlu diverifikasi kembali
+                    terhadap kode dan data pengujian final sebelum digunakan dalam laporan skripsi.
+                </div>
+            </section>
+
+            <footer class="dashboard-footer">
+                <div class="footer-mark">🌾</div>
+                <div>
+                    <strong>Sistem Prediksi Luas Serangan OPT Tanaman Padi</strong>
+                    <span>Kabupaten Bojonegoro</span>
+                </div>
+            </footer>
+        </main>
+    </div>
+</body>
+
+</html>

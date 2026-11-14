@@ -1,0 +1,447 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Data Historis | OPT Bojonegoro</title>
+
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+
+    <style>
+        .page-panel {
+            padding: 25px;
+            margin-bottom: 24px;
+        }
+
+        .page-actions {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 15px;
+            flex-wrap: wrap;
+            margin-bottom: 22px;
+        }
+
+        .search-input,
+        .filter-select {
+            padding: 12px 14px;
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            background: white;
+            color: var(--text);
+            font: inherit;
+        }
+
+        .search-input {
+            width: min(100%, 320px);
+        }
+
+        .primary-button {
+            display: inline-block;
+            padding: 12px 18px;
+            border: none;
+            border-radius: 10px;
+            background: var(--green);
+            color: white;
+            font: inherit;
+            font-weight: 700;
+            cursor: pointer;
+        }
+
+        .primary-button:hover {
+            background: var(--green-dark);
+        }
+
+        .page-note {
+            padding: 15px 18px;
+            margin-bottom: 22px;
+            border-radius: 12px;
+            background: var(--green-soft);
+            color: var(--green-dark);
+            font-size: 14px;
+            line-height: 1.6;
+        }
+
+        .error-note {
+            background: #fff0ee;
+            color: #a32d21;
+        }
+
+        .table-wrapper {
+            width: 100%;
+            overflow-x: auto;
+        }
+
+        .table-wrapper table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .table-wrapper th,
+        .table-wrapper td {
+            padding: 14px 16px;
+            text-align: left;
+            border-bottom: 1px solid var(--border);
+            white-space: nowrap;
+        }
+
+        .table-wrapper th {
+            background: var(--green-pale);
+            color: var(--green-dark);
+            font-weight: 700;
+        }
+
+        .table-wrapper tbody tr:hover {
+            background: var(--green-pale);
+        }
+
+        .table-wrapper td:last-child,
+        .table-wrapper th:last-child {
+            text-align: right;
+        }
+
+        .table-status {
+            margin-top: 16px;
+            color: var(--muted);
+            font-size: 13px;
+        }
+
+        .empty-state {
+            padding: 35px 15px !important;
+            text-align: center !important;
+            white-space: normal !important;
+        }
+
+        .empty-icon {
+            font-size: 26px;
+            margin-bottom: 10px;
+        }
+
+        .empty-state strong,
+        .empty-state span {
+            display: block;
+            margin-bottom: 8px;
+        }
+
+        @media (max-width: 760px) {
+            .page-panel {
+                padding: 17px;
+            }
+
+            .search-input {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="app-layout">
+
+        <!-- SIDEBAR -->
+        <aside class="sidebar">
+            <a href="/" class="sidebar-brand">
+                <div class="brand-icon">🌾</div>
+                <div>
+                    <h2>OPT BOJONEGORO</h2>
+                    <p>SISTEM PROTEKSI TANAMAN</p>
+                </div>
+            </a>
+
+            <p class="sidebar-label">MENU UTAMA</p>
+
+            <nav class="sidebar-menu">
+                <a href="/" class="menu-item">
+                    <span class="menu-icon">▦</span>
+                    <span>Dashboard</span>
+                </a>
+
+                <a href="/data-historis" class="menu-item active">
+                    <span class="menu-icon">◷</span>
+                    <span>Data Historis</span>
+                </a>
+
+                <a href="/data-opt" class="menu-item">
+                    <span class="menu-icon">♧</span>
+                    <span>Data OPT</span>
+                </a>
+
+                <a href="/prediksi" class="menu-item">
+                    <span class="menu-icon">⌁</span>
+                    <span>Prediksi OPT</span>
+                </a>
+
+                <a href="/evaluasi" class="menu-item">
+                    <span class="menu-icon">▤</span>
+                    <span>Model &amp; Evaluasi</span>
+                </a>
+
+                <a href="/profil-admin" class="menu-item">
+                    <span class="menu-icon">♙</span>
+                    <span>Profil Admin</span>
+                </a>
+            </nav>
+
+            <div class="sidebar-bottom">
+                <div class="sidebar-status">
+                    <span class="status-dot"></span>
+                    <div>
+                        <strong>Sistem Informasi OPT</strong>
+                        <small>Kabupaten Bojonegoro</small>
+                    </div>
+                </div>
+
+                <a href="/logout" class="logout-button">
+                    <span class="logout-icon">⇥</span>
+                    <span>Logout</span>
+                </a>
+            </div>
+        </aside>
+
+        <!-- KONTEN UTAMA -->
+        <main class="main-content">
+
+            <header class="content-header">
+                <div class="header-copy">
+                    <p class="breadcrumb">
+                        Beranda <span>/</span> Data Historis
+                    </p>
+
+                    <h1>Data Historis</h1>
+
+                    <p class="header-description">
+                        Informasi historis luas serangan Organisme Pengganggu
+                        Tanaman pada tanaman padi di Kabupaten Bojonegoro.
+                    </p>
+                </div>
+
+                <div class="admin-badge">
+                    <div class="admin-avatar">A</div>
+                    <div>
+                        <strong>Administrator</strong>
+                        <small>Panel Admin</small>
+                    </div>
+                </div>
+            </header>
+
+            <!-- RINGKASAN DATA -->
+            <section class="summary-grid">
+
+                <article class="summary-card">
+                    <div class="summary-top">
+                        <span>Total Catatan</span>
+                        <span class="card-icon green-icon">▤</span>
+                    </div>
+
+                    <p class="summary-value">{{ data|length }}</p>
+                    <p class="summary-caption">Jumlah data dari database</p>
+                </article>
+
+                <article class="summary-card">
+                    <div class="summary-top">
+                        <span>Periode Data</span>
+                        <span class="card-icon yellow-icon">◷</span>
+                    </div>
+
+                    <p class="summary-value">2020–2025</p>
+                    <p class="summary-caption">Periode dataset penelitian</p>
+                </article>
+
+                <article class="summary-card">
+                    <div class="summary-top">
+                        <span>Kecamatan</span>
+                        <span class="card-icon orange-icon">⌖</span>
+                    </div>
+
+                    <p class="summary-value">28</p>
+                    <p class="summary-caption">Wilayah penelitian</p>
+                </article>
+
+                <article class="summary-card">
+                    <div class="summary-top">
+                        <span>Satuan</span>
+                        <span class="card-icon green-icon">▦</span>
+                    </div>
+
+                    <p class="summary-value">Hektare</p>
+                    <p class="summary-caption">Luas serangan OPT</p>
+                </article>
+
+            </section>
+
+            <!-- TABEL DATA HISTORIS -->
+            <section class="panel page-panel">
+
+                <div class="page-actions">
+                    <div>
+                        <h2>Daftar Data Serangan OPT</h2>
+                        <p style="color:var(--muted); margin-top:5px;">
+                            Catatan historis serangan OPT pada tanaman padi.
+                        </p>
+                    </div>
+                </div>
+
+                {% if pesan_error %}
+                <div class="page-note error-note" role="alert">
+                    {{ pesan_error }}
+                </div>
+                {% else %}
+                <div class="page-note">
+                    Data historis dimuat dari database MySQL.
+                    Gunakan pencarian atau filter tahun untuk menemukan data.
+                </div>
+                {% endif %}
+
+                <!-- PENCARIAN DAN FILTER -->
+                <div class="page-actions">
+                    <input class="search-input" id="searchInput" type="search"
+                        placeholder="Cari kecamatan atau jenis OPT..." aria-label="Cari kecamatan atau jenis OPT">
+
+                    <select class="filter-select" id="filterTahun" aria-label="Filter berdasarkan tahun">
+                        <option value="">Semua Tahun</option>
+                    </select>
+                </div>
+
+                <!-- TABEL -->
+                <div class="table-wrapper">
+                    <table id="tabelHistoris">
+                        <thead>
+                            <tr>
+                                <th>No.</th>
+                                <th>Tahun</th>
+                                <th>Kecamatan</th>
+                                <th>Komoditas</th>
+                                <th>Jenis OPT</th>
+                                <th>Luas Serangan (Ha)</th>
+                            </tr>
+                        </thead>
+
+                        <tbody id="dataTableBody">
+                            {% for row in data %}
+                            <tr class="data-row">
+                                <td>{{ loop.index }}</td>
+                                <td class="tahun-cell">
+                                    {{ row['tahun'] }}
+                                </td>
+                                <td class="kecamatan-cell">
+                                    {{ row['kecamatan'] }}
+                                </td>
+                                <td>
+                                    {{ row['komoditas'] }}
+                                </td>
+                                <td class="jenis-opt-cell">
+                                    {{ row['jenis_opt'] }}
+                                </td>
+                                <td>
+                                    {{ row['luas_serangan'] }}
+                                </td>
+                            </tr>
+                            {% else %}
+                            <tr>
+                                <td colspan="6" class="empty-state">
+                                    <div class="empty-icon">▤</div>
+                                    <strong>Data belum tersedia</strong>
+                                    <span>
+                                        {% if pesan_error %}
+                                        Periksa koneksi Flask dan database MySQL.
+                                        {% else %}
+                                        Belum ada data yang dapat ditampilkan.
+                                        {% endif %}
+                                    </span>
+                                </td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+
+                <p class="table-status" id="tableStatus" role="status">
+                    Menampilkan {{ data|length }} catatan.
+                </p>
+
+            </section>
+
+            <!-- FOOTER -->
+            <footer class="dashboard-footer">
+                <div class="footer-mark">🌾</div>
+                <div>
+                    <strong>
+                        Sistem Prediksi Luas Serangan OPT Tanaman Padi
+                    </strong>
+                    <span>Kabupaten Bojonegoro</span>
+                </div>
+            </footer>
+
+        </main>
+    </div>
+
+    <script>
+        const searchInput = document.getElementById("searchInput");
+        const filterTahun = document.getElementById("filterTahun");
+        const tableBody = document.getElementById("dataTableBody");
+        const tableStatus = document.getElementById("tableStatus");
+
+        const rows = Array.from(
+            tableBody.querySelectorAll("tr.data-row")
+        );
+
+        // Membuat daftar tahun berdasarkan data yang tersedia.
+        const daftarTahun = [
+            ...new Set(
+                rows.map(row =>
+                    row.querySelector(".tahun-cell").textContent.trim()
+                )
+            )
+        ].sort((a, b) => Number(b) - Number(a));
+
+        daftarTahun.forEach(tahun => {
+            const option = document.createElement("option");
+            option.value = tahun;
+            option.textContent = tahun;
+            filterTahun.appendChild(option);
+        });
+
+        // Pencarian dan filter tahun.
+        function filterData() {
+            const kataKunci = searchInput.value
+                .trim()
+                .toLowerCase();
+
+            const tahunDipilih = filterTahun.value;
+            let jumlahTampil = 0;
+
+            rows.forEach(row => {
+                const teksBaris = row.textContent.toLowerCase();
+                const tahun = row
+                    .querySelector(".tahun-cell")
+                    .textContent.trim();
+
+                const cocokKataKunci =
+                    teksBaris.includes(kataKunci);
+
+                const cocokTahun =
+                    tahunDipilih === "" || tahun === tahunDipilih;
+
+                const tampil =
+                    cocokKataKunci && cocokTahun;
+
+                row.style.display = tampil ? "" : "none";
+
+                if (tampil) {
+                    jumlahTampil++;
+                }
+            });
+
+            tableStatus.textContent =
+                "Menampilkan " + jumlahTampil +
+                " dari " + rows.length + " catatan.";
+        }
+
+        searchInput.addEventListener("input", filterData);
+        filterTahun.addEventListener("change", filterData);
+    </script>
+
+</body>
+
+</html>

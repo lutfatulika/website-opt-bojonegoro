@@ -1,0 +1,30 @@
+{
+    "sklearn_version": "1.6.1",
+    "fitur": [
+        "Kecamatan",
+        "Jenis_OPT",
+        "Tahun",
+        "Luas_Serangan_Tahun_Sebelumnya"
+    ],
+    "target": "Luas_Serangan",
+    "n_estimators": 100,
+    "min_samples_leaf": 6,
+    "random_state": 42,
+    "tahun_training_final": [
+        2021,
+        2022,
+        2023,
+        2024,
+        2025
+    ],
+    "jumlah_data_training_final": 700,
+    "tahun_testing": [
+        2024,
+        2025
+    ],
+    "metrik_testing": {
+        "MAE": 6.6480455944273915,
+        "RMSE": 14.947516769795923,
+        "R2": -0.26390886898729504
+    }
+}
